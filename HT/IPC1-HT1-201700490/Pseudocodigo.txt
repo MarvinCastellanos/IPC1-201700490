@@ -1,0 +1,20 @@
+1. inicio
+2. seccion 1 = A, seccion 2 = B
+3. verificar cantidad de alumnos en A=CA
+4. verificar cantidad de alumnos en B=CB
+5. imprimir "que seccion desea selecionar?"
+6. leer opcion
+7. si CA<5 o CB<5
+8. 	si opcion == A
+9.		si CA<5
+			imprimir "Se ha asignado satisfactoriamente"
+10.		si no 
+			imprimir "La seccion A esta llena, escoja otra."
+11. 	si no
+12.		si CB<5
+			imprimir "se ha asignado satisfactoriamente"
+13.		si no
+			imprimir "La seccion B esta llena, escoja otra.
+14. si no 
+	imprimir "Ambas secciones estan llenas, debe aperturar una nueva."
+15. fin
