@@ -1,0 +1,45 @@
+		10*10
+		posicion de los barcos xy
+		posicion del disparo		-- donde x-m y -n atinarle
+							x!=m &
+
+		bitacora de intentos
+		bitacora de barcos undidos
+
+		menu-- do while
+			tiene cuatro opciones
+				iniciar juego
+					submenu
+					crear tablero
+					reporte completo
+
+		reportes
+			completos
+				listado usuarios
+				estado partida	
+					si gano, abandono o perdio
+			victorias
+				ordenamiento en burbuja o quicksort(ascendente)
+				en base al numero de disparos
+		salir
+			sistem.out(0)	
+
+		sub-menu
+			ingresar barcos
+
+			cambiar intentos
+
+			iniciar juego   system.out.println("ingrese su nickname"); lector.next();
+
+			visualizar tablero
+				for()
+				   for()
+
+
+
+TAREA
+DEBUG Y VER EL ESTADO DE LAS VARIABLES
+
+tipo de dato abstracto: usa otros tipos de datos primitivos
+es creado por el programador para su uso y conveniencia.
+
