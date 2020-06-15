@@ -18,6 +18,9 @@ public class Reportes extends javax.swing.JFrame {
         initComponents();
     }
 
+    public void mostrar(){
+        this.show(true);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,7 +32,7 @@ public class Reportes extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("REPORTES");
 

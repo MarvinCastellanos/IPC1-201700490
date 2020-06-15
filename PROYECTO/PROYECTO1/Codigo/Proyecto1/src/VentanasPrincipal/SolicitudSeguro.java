@@ -5,22 +5,75 @@
  */
 package VentanasPrincipal;
 
+import Objetos.*;
+import java.text.DecimalFormat;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Marvin
  */
 public class SolicitudSeguro extends javax.swing.JFrame {
-
+    double posiblePrima;
+    double posibleDeducible;
     /**
      * Creates new form SolicitudSeguro
      */
     public SolicitudSeguro() {
+        posiblePrima=0;
+        posibleDeducible=0;
         initComponents();
+        llenaTipo();
+        llenaUso();
+        llenaMarca();
+        llenaLinea();
+        llenaModelo();
+        //DecimalFormat formato1 = new DecimalFormat("#.00");
     }
     
     public void mostrar(){
         this.show(true);
     }
+    private void llenaTipo(){
+        for (int conteo = 0; conteo < Main.Main.tipos.length; conteo++) {
+            if (Main.Main.tipos[conteo]!= null) {
+                jComboBox1.addItem(Main.Main.tipos[conteo].getNombre());
+            }
+        }
+    }
+    
+    private void llenaUso(){
+        for (int conteo = 0; conteo < Main.Main.usos.length; conteo++) {
+            if (Main.Main.usos[conteo]!= null) {
+                jComboBox2.addItem(Main.Main.usos[conteo].getNombre());
+            }
+        }
+    }
+    
+    private void llenaMarca(){
+        for (int conteo = 0; conteo < Main.Main.marcas.length; conteo++) {
+            if (Main.Main.marcas[conteo]!= null) {
+                jComboBox3.addItem(Main.Main.marcas[conteo].getNombre());
+            }
+        }
+    }
+    
+    private void llenaLinea(){
+        for (int conteo = 0; conteo < Main.Main.lineas.length; conteo++) {
+            if (Main.Main.lineas[conteo]!= null) {
+                jComboBox4.addItem(Main.Main.lineas[conteo].getNombre());
+            }
+        }
+    }
+    
+    private void llenaModelo(){
+        for (int conteo = 0; conteo < Main.Main.modelos.length; conteo++) {
+            if (Main.Main.modelos[conteo]!= null) {
+                jComboBox5.addItem(Main.Main.modelos[conteo].getAnio());
+            }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,7 +117,7 @@ public class SolicitudSeguro extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("SOLICITAR SEGURO AUTOMAS");
         setName("Solicitar seguro Automas"); // NOI18N
 
@@ -89,6 +142,11 @@ public class SolicitudSeguro extends javax.swing.JFrame {
         jLabel10.setText("VALOR DEL VEHICULO");
 
         jButton1.setText("COTIZAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("COSTO PRIMA");
 
@@ -107,10 +165,25 @@ public class SolicitudSeguro extends javax.swing.JFrame {
         jTextField8.setEditable(false);
 
         jButton2.setText("-DEDUCIBLE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("+DEDUCIBLE");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("SOLICITAR SEGURO");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("CANCELAR");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -267,7 +340,156 @@ public class SolicitudSeguro extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        //declaracion de variables para calculos respectivos
+        int valorEstablecido;
+        double posiblePrima;
+        double posibleDeducible;
+        double depreciacionModelo;
+        double porcentajeMarca;
+        double porcentajeLinea;
+        double porcentajeUso;
+        
+        double ptr;
+        double valorReal;
+        double costoPrima;
+        double primaTotal;
+        double costoDeducible;
+        double valorVehiculo;
+        
+        
+        //declaracion de objetos segun su tipo para obtencion de datos
+        int tipo;
+        int uso;
+        int marca;
+        int linea;
+        int modelo;
+        //obtencion de datos de jComboBox y asignacion de valores a variables
+        tipo= jComboBox1.getSelectedIndex();
+        System.out.println(tipo);
+        valorEstablecido=Main.Main.tipos[tipo].getValorMax();
+        
+        uso= jComboBox2.getSelectedIndex();
+                System.out.println(uso);
+        porcentajeUso=Main.Main.usos[uso].getAumentoPoliza();
+        
+        marca= jComboBox3.getSelectedIndex();
+                System.out.println(marca);
+        porcentajeMarca=Main.Main.marcas[marca].getAumentoPoliza();
+        
+        linea = jComboBox4.getSelectedIndex();
+                System.out.println(linea);
+        porcentajeLinea=Main.Main.lineas[linea].getAumentoPoliza();
+        
+        modelo= jComboBox5.getSelectedIndex();
+        System.out.println(modelo);
+        depreciacionModelo=Main.Main.modelos[modelo].getDepreciacion();
+        
+        valorVehiculo=Double.parseDouble(jTextField10.getText());
+       //termina la obtencion de valores y asignacion de variables
+        ptr=porcentajeLinea+porcentajeMarca+porcentajeUso;
+        
+        valorReal=valorEstablecido-(depreciacionModelo*valorEstablecido);
+        System.out.println("valor real "+valorReal);
+        primaTotal=valorVehiculo*(0.1+ptr);
+        System.out.println("prima total "+primaTotal);
+        costoPrima=primaTotal/12;
+        System.out.println("costo prima"+costoPrima);
+        costoDeducible=valorVehiculo*0.07;
+        posiblePrima=costoPrima;
+        posibleDeducible=costoDeducible;
+        System.out.println(valorReal);
+        
+        this.posibleDeducible=posibleDeducible;
+        this.posiblePrima=posiblePrima;
+        
+        if (valorVehiculo>valorReal) {
+            JOptionPane.showMessageDialog(null, "Revise el valor de su vehiculo");
+        }else{
+            DecimalFormat formato1 = new DecimalFormat("#.00");
+            jTextField5.setText(String.valueOf(formato1.format(costoPrima)));
+            jTextField6.setText(String.valueOf(formato1.format(costoDeducible)));
+            jTextField7.setText(String.valueOf(formato1.format(posiblePrima)));
+            jTextField8.setText(String.valueOf(formato1.format(posibleDeducible)));
+            
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        DecimalFormat formato1 = new DecimalFormat("#.00");
+        double posibleDeducible =this.posibleDeducible;
+        double posiblePrima=this.posiblePrima;
+        
+        posibleDeducible=posibleDeducible*0.9;
+        posiblePrima=posiblePrima*1.03;
+        
+        jTextField7.setText(String.valueOf(formato1.format(posiblePrima)));
+        jTextField8.setText(String.valueOf(formato1.format(posibleDeducible)));
+        
+        this.posibleDeducible=posibleDeducible;
+        this.posiblePrima=posiblePrima;
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        DecimalFormat formato1 = new DecimalFormat("#.00");
+        double posibleDeducible =this.posibleDeducible;
+        double posiblePrima=this.posiblePrima;
+        
+        posibleDeducible=posibleDeducible*1.1;
+        posiblePrima=posiblePrima*0.97;
+        
+        jTextField7.setText(String.valueOf(formato1.format(posiblePrima)));
+        jTextField8.setText(String.valueOf(formato1.format(posibleDeducible)));
+        
+        this.posibleDeducible=posibleDeducible;
+        this.posiblePrima=posiblePrima;
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String nombre;
+        String apellido;
+        String dpi;
+        String telefono;
+        String tipoVehiculo;
+        String marca;
+        String linea;
+        String modelo;
+        int valorVehiculo;
+        double costoPrima;
+        double costoDeducible;
+        
+        nombre=jTextField1.getText();
+        apellido=jTextField2.getText();
+        dpi=jTextField3.getText();
+        telefono=jTextField4.getText();
+        tipoVehiculo=Main.Main.tipos[jComboBox1.getSelectedIndex()].getNombre();
+        marca=Main.Main.marcas[jComboBox2.getSelectedIndex()].getNombre();
+        linea=Main.Main.lineas[jComboBox3.getSelectedIndex()].getNombre();
+        modelo=Main.Main.modelos[jComboBox4.getSelectedIndex()].getAnio();
+        valorVehiculo=Integer.parseInt(jTextField10.getText());
+        costoPrima=this.posiblePrima;
+        costoDeducible=this.posibleDeducible;
+        
+        
+        for (int conteo = 0; conteo < Main.Main.solicitantes.length; conteo++) {
+            if (Main.Main.solicitantes[conteo] == null) {
+                Main.Main.solicitantes[conteo] = new Solicitante(nombre, apellido, dpi, telefono, tipoVehiculo, marca, linea, modelo, valorVehiculo, costoPrima, costoDeducible);
+                System.out.println("solicitud realizada con exito");
+                break;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Su solicitud ha sido enviada.");
+        this.dispose();
+    
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
