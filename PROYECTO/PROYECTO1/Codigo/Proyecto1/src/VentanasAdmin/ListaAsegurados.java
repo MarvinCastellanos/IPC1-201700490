@@ -5,17 +5,43 @@
  */
 package VentanasAdmin;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Marvin
  */
 public class ListaAsegurados extends javax.swing.JFrame {
 
+    DefaultTableModel modelo;
     /**
      * Creates new form ListaAsegurados
      */
     public ListaAsegurados() {
         initComponents();
+        mostrarDatos();
+    }
+    
+    private void mostrarDatos() {
+        modelo = new DefaultTableModel();
+        modelo.addColumn("DPI");
+        modelo.addColumn("NOMBRE");
+        modelo.addColumn("ESTADO");
+        modelo.addColumn("ULTIMA PRIMA");
+        this.jTable1.setModel(modelo);
+        this.jTable1.setDefaultEditor(Object.class, null);
+
+        String info[] = new String[4];
+        for (int conteo = 0; conteo < Main.Main.asegurados.length; conteo++) {
+            if (Main.Main.asegurados[conteo] != null) {
+                info[0] = Main.Main.asegurados[conteo].getDpi();
+                info[1] = Main.Main.asegurados[conteo].getNombres();
+                info[2] = Main.Main.asegurados[conteo].getEstado();
+                info[3] = Main.Main.asegurados[conteo].getUltimaPrima();
+
+                modelo.addRow(info);
+            }
+        }
     }
     
     public void mostrar(){

@@ -5,20 +5,50 @@
  */
 package VentanasAdmin;
 
+import Objetos.Incidente;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Marvin
  */
 public class ColaTaller extends javax.swing.JFrame {
 
+    DefaultTableModel modelo;
+
     /**
      * Creates new form ColaTaller
      */
     public ColaTaller() {
         initComponents();
+        mostrarDatos();
     }
-    
-    public void mostrar(){
+
+    private void mostrarDatos() {
+        modelo = new DefaultTableModel();
+        modelo.addColumn("CODIGO");
+        modelo.addColumn("ASOCIADO");
+        modelo.addColumn("TERCERO");
+        modelo.addColumn("ESTADO");
+        modelo.addColumn("PAGO");
+        this.jTable1.setModel(modelo);
+        this.jTable1.setDefaultEditor(Object.class, null);
+
+        String info[] = new String[5];
+        for (int conteo = 0; conteo < Main.Main.incidentes.length; conteo++) {
+            if (Main.Main.incidentes[conteo] != null) {
+                info[0] = Integer.toString(Main.Main.incidentes[conteo].getCodigo());
+                info[1] = Main.Main.incidentes[conteo].getDpiAsegurado();
+                info[2] = Main.Main.incidentes[conteo].getDpiTercero();
+                info[3] = Main.Main.incidentes[conteo].getEstado();
+                info[4] = Main.Main.incidentes[conteo].getPago();
+
+                modelo.addRow(info);
+            }
+        }
+    }
+
+    public void mostrar() {
         this.show(true);
     }
 
@@ -64,6 +94,11 @@ public class ColaTaller extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("MARCAR COMO TERMINADO");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("SALIR");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -108,6 +143,13 @@ public class ColaTaller extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int fila = jTable1.getSelectedRow();
+        Main.Main.incidentes[fila].setEstado("TERMINADO");
+        mostrarDatos();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

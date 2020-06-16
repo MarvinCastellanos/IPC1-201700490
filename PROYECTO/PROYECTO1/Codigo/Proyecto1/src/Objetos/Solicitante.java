@@ -21,6 +21,7 @@ public class Solicitante {
     private int valorVehiculo;
     private double costoPrima;
     private double deducible;
+    private String tipo;
 
     public Solicitante(String nombres, String apellidos, String dpi, String telefono, String tipoVehiculo, String marcaVehiculo, String lineaVehiculo, String modeloVehiculo, int valorVehiculo, double costoPrima, double deducible) {
         this.nombres = nombres;
@@ -34,6 +35,7 @@ public class Solicitante {
         this.valorVehiculo = valorVehiculo;
         this.costoPrima = costoPrima;
         this.deducible = deducible;
+        this.tipo="AUTOMAS";
     }
 
     /**
@@ -188,6 +190,20 @@ public class Solicitante {
      */
     public void setDeducible(double deducible) {
         this.deducible = deducible;
+    }
+
+    /**
+     * @return the tipo
+     */
+    public String getTipo() {
+        return tipo;
+    }
+
+    /**
+     * @param tipo the tipo to set
+     */
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
     
     

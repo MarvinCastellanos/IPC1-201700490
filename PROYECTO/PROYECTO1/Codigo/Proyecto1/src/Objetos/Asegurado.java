@@ -21,6 +21,8 @@ public class Asegurado {
     private int valorVehiculo;
     private double costoPrima;
     private double deducible;
+    private String estado;
+    private String ultimaPrima;
 
     public Asegurado(String nombres, String apellidos, String dpi, String telefono, String tipoVehiculo, String marcaVehiculo, String lineaVehiculo, String modeloVehiculo, int valorVehiculo, double costoPrima, double deducible) {
         this.nombres = nombres;
@@ -34,6 +36,8 @@ public class Asegurado {
         this.valorVehiculo = valorVehiculo;
         this.costoPrima = costoPrima;
         this.deducible = deducible;
+        this.estado="PROTEGIDO";
+        this.ultimaPrima="Hoy";
     }
 
     /**
@@ -188,6 +192,34 @@ public class Asegurado {
      */
     public void setDeducible(double deducible) {
         this.deducible = deducible;
+    }
+
+    /**
+     * @return the estado
+     */
+    public String getEstado() {
+        return estado;
+    }
+
+    /**
+     * @param estado the estado to set
+     */
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    /**
+     * @return the ultimaPrima
+     */
+    public String getUltimaPrima() {
+        return ultimaPrima;
+    }
+
+    /**
+     * @param ultimaPrima the ultimaPrima to set
+     */
+    public void setUltimaPrima(String ultimaPrima) {
+        this.ultimaPrima = ultimaPrima;
     }
     
     
