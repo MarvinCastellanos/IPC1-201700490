@@ -23,9 +23,9 @@ public class Incidente {
     private String pago;
     private boolean aseguradoCulpable;
     private boolean terceroSeguro;
-    private Object detalle[];
+    private String detalle[][];
 
-    public Incidente(int codigo, String dpiAsegurado, String dpiTercero, String rolAsegurado, String rolTercero, double costoReal, double pagoRequeridoAsegurado, double pagoRequeridoTercero, String estado, String pago, boolean aseguradoCulpable, boolean terceroSeguro, Object[] detalle) {
+    public Incidente(int codigo, String dpiAsegurado, String dpiTercero, String rolAsegurado, String rolTercero, double costoReal, double pagoRequeridoAsegurado, double pagoRequeridoTercero, String estado, String pago, boolean aseguradoCulpable, boolean terceroSeguro, String[][] detalle) {
         this.codigo = codigo;
         this.dpiAsegurado = dpiAsegurado;
         this.dpiTercero = dpiTercero;
@@ -219,7 +219,7 @@ public class Incidente {
     /**
      * @param detalle the detalle to set
      */
-    public void setDetalle(Object[] detalle) {
+    public void setDetalle(String[][] detalle) {
         this.detalle = detalle;
     }
     

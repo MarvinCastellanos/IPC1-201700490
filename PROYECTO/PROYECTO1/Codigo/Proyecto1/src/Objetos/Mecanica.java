@@ -12,12 +12,19 @@ package Objetos;
 public class Mecanica {
     private String actividad;
     private double precio;
+    private int codigo;
 
     public Mecanica(String actividad, double precio) {
         this.actividad = actividad;
         this.precio = precio;
     }
 
+    public Mecanica(String actividad, double precio, int codigo) {
+        this.actividad = actividad;
+        this.precio = precio;
+        this.codigo = codigo;
+    }
+    
     /**
      * @return the actividad
      */
@@ -44,6 +51,20 @@ public class Mecanica {
      */
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    /**
+     * @return the codigo
+     */
+    public int getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
     
     

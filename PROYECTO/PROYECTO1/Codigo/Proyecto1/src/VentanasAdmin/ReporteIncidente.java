@@ -5,21 +5,60 @@
  */
 package VentanasAdmin;
 
+import Objetos.*;
+import java.text.DecimalFormat;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Marvin
  */
 public class ReporteIncidente extends javax.swing.JFrame {
 
+    DefaultTableModel modelo;
+    String detalle[][];
+    double total;
+
     /**
      * Creates new form ReporteIncidente
      */
     public ReporteIncidente() {
         initComponents();
+        total = 0;
     }
-    
-    public void mostrar(){
+
+    public void mostrar() {
         this.show(true);
+        llenaMecanica();
+        llenaRepuesto();
+        creaTabla();
+        detalle = new String[50][3];
+    }
+
+    private void llenaMecanica() {
+        for (int conteo = 0; conteo < Main.Main.mecanicas.length; conteo++) {
+            if (Main.Main.mecanicas[conteo] != null) {
+                jComboBox1.addItem(Main.Main.mecanicas[conteo].getActividad());
+            }
+        }
+    }
+
+    private void llenaRepuesto() {
+        for (Repuesto repuesto : Main.Main.repuestos) {
+            if (repuesto != null) {
+                jComboBox2.addItem(repuesto.getNombre());
+            }
+        }
+    }
+
+    private void creaTabla() {
+        modelo = new DefaultTableModel();
+        modelo.addColumn("CODIGO");
+        modelo.addColumn("NOMBRE");
+        modelo.addColumn("PRECIO");
+        this.jTable1.setModel(modelo);
+        this.jTable1.setDefaultEditor(Object.class, null);
     }
 
     /**
@@ -65,13 +104,15 @@ public class ReporteIncidente extends javax.swing.JFrame {
         jCheckBox2.setText("EL TERCERO TIENE SEGURO");
 
         jButton1.setText("AGREGAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "CODIGO", "NOMBRE", "PRECIO"
@@ -92,6 +133,11 @@ public class ReporteIncidente extends javax.swing.JFrame {
         jTextField3.setEditable(false);
 
         jButton2.setText("REPORTAR INCIDENTE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("CANCELAR");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -173,7 +219,7 @@ public class ReporteIncidente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
@@ -187,6 +233,207 @@ public class ReporteIncidente extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int mecanica;
+        int repuesto;
+        double precioRepuesto;
+        double precioMecanica;
+
+        String mecanicas[] = new String[3];
+        String repuestos[] = new String[3];
+        DecimalFormat formato1 = new DecimalFormat("#.00");
+
+        //obtencion de datos de jComboBox y asignacion de valores a variables
+        mecanica = jComboBox1.getSelectedIndex();
+        repuesto = jComboBox2.getSelectedIndex();
+
+        precioMecanica = Main.Main.mecanicas[mecanica].getPrecio();
+        precioRepuesto = Main.Main.repuestos[repuesto].getPrecio();
+
+        this.total = this.total + precioMecanica + precioRepuesto;
+
+        mecanicas[0] = Integer.toString(Main.Main.mecanicas[mecanica].getCodigo());
+        mecanicas[1] = Main.Main.mecanicas[mecanica].getActividad();
+        mecanicas[2] = String.valueOf(formato1.format(Main.Main.mecanicas[mecanica].getPrecio()));
+
+        repuestos[0] = Integer.toString(Main.Main.repuestos[repuesto].getCodigo());
+        repuestos[1] = Main.Main.repuestos[repuesto].getNombre();
+        repuestos[2] = String.valueOf(formato1.format(Main.Main.repuestos[repuesto].getPrecio()));
+
+        modelo.addRow(mecanicas);
+        modelo.addRow(repuestos);
+
+        for (int fila = 0; fila < 50; fila++) {
+            if (this.detalle[fila][0] == null) {
+                this.detalle[fila][0] = mecanicas[0];
+                this.detalle[fila][1] = mecanicas[1];
+                this.detalle[fila][2] = mecanicas[2];
+
+                this.detalle[fila + 1][0] = repuestos[0];
+                this.detalle[fila + 1][1] = repuestos[1];
+                this.detalle[fila + 1][2] = repuestos[2];
+                break;
+            }
+        }
+
+        jTextField3.setText(String.valueOf(formato1.format(this.total)));
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String nombresTercero;
+        String apellidosTercero;
+        String telefonoTercero;
+
+        int codigo = 0;
+        String dpiAsegurado;
+        String dpiTercero;
+        String rolAsegurado;
+        String rolTercero;
+        double deducibleAsegurado = 0;
+        double deducibleTercero = 0;
+        double costoReal = this.total;
+        double pagoAsegurado = 0;
+        double pagoTercero = 0;
+        String estado = "EN PROCESO";
+        String pago = "PENDIENTE";
+        boolean aseguradoCulpable;
+        boolean terceroTieneSeguro;
+        String detalle[][] = this.detalle;
+
+        boolean exitoTercero = false;//si el incidente para el tercero se realiza con exito
+        boolean exitoAsegurado=false;//si el incidente para el asegurado se realiza con exito
+        boolean encontrado = false;//si el tercero es encontrado en banca de datos
+
+        dpiAsegurado = jTextField1.getText();
+        dpiTercero = jTextField2.getText();
+        aseguradoCulpable = jCheckBox1.isSelected();
+        terceroTieneSeguro = jCheckBox2.isSelected();
+        System.out.println(aseguradoCulpable + " " + terceroTieneSeguro);
+        codigo = (int) (Math.random() * 10000) + 1;
+        if (aseguradoCulpable) {
+            rolAsegurado = "AUTOR";
+            rolTercero = "AFECTADO";
+        } else {
+            rolAsegurado = "AFECTADO";
+            rolTercero = "Autor";
+        }
+
+        //obtiene deducible del asegurado de la banca de asegurados
+        for (int correlativo = 0; correlativo < Main.Main.asegurados.length; correlativo++) {
+            if (Main.Main.asegurados[correlativo] != null) {
+                if (Main.Main.asegurados[correlativo].getDpi().equals(dpiAsegurado)) {
+                    deducibleAsegurado = Main.Main.asegurados[correlativo].getDeducible();
+                    break;
+                }
+            }
+        }
+
+        //obtiene deducible del tercero de banca de asegurados
+        for (int correlativo = 0; correlativo < Main.Main.asegurados.length; correlativo++) {
+            if (Main.Main.asegurados[correlativo] != null) {
+                if (Main.Main.asegurados[correlativo].getDpi().equals(dpiTercero)) {
+                    deducibleTercero = Main.Main.asegurados[correlativo].getDeducible();
+                    break;
+                }
+            }
+        }
+        for (int conteo = 0; conteo < Main.Main.asegurados.length; conteo++) {
+            if (Main.Main.asegurados[conteo]!=null) {
+                if (Main.Main.asegurados[conteo].getDpi().equals(dpiAsegurado)) {
+                    exitoAsegurado=true;
+                    break;
+                }
+            }
+        }
+        if (terceroTieneSeguro) {
+            for (int conteo = 0; conteo < Main.Main.asegurados.length; conteo++) {
+                if (Main.Main.asegurados[conteo] != null) {//no toma encuenta las posiciones nulas de vector de usuarios
+                    if (Main.Main.asegurados[conteo].getDpi().equals(dpiTercero)) {
+                        System.out.println("El tercero tiene seguro, aparece en el banco de datos.");
+                        encontrado = true;
+                        //si tercero tiene seguro y asegurado es culpable
+                        if (aseguradoCulpable) {
+                            pagoTercero = 0;
+                            pagoAsegurado = deducibleAsegurado + (costoReal * 0.2);
+                        } else {//si asegurado tiene seguro y es afectado
+                            pagoTercero = deducibleTercero + (costoReal * 0.2);
+                            pagoAsegurado = 0;
+                        }
+                        exitoTercero = true;
+                        break;
+                    }
+                }
+            }
+        } else {
+            for (int conteo = 0; conteo < Main.Main.asegurados.length; conteo++) {
+                if (Main.Main.asegurados[conteo] != null) {//verifica que el tercero no este en la banca de datos de asegurados
+                    if (Main.Main.asegurados[conteo].getDpi().equals(dpiTercero)) {
+                        JOptionPane.showMessageDialog(null, "El Tercero aparece en nuestro banco de datos de asegurados, verifique nuevamente");
+                        encontrado = true;
+                        exitoTercero = false;
+                        break;
+                    }
+                    if (Main.Main.noAsegurados[conteo] != null) {
+                        if (Main.Main.noAsegurados[conteo].getDpi().equals(dpiTercero)) {
+                            System.out.println("El tercero esta registrado en la banca de datos de no asegurados,verifique nuevamente");
+                            encontrado = true;
+                            exitoTercero=true;
+                            for (int correlativo = 0; correlativo < Main.Main.noAsegurados.length; correlativo++) {
+                                if (Main.Main.noAsegurados[conteo] != null) {
+                                    if (Main.Main.noAsegurados[0].equals(dpiTercero)) {
+                                        nombresTercero = Main.Main.noAsegurados[conteo].getNombres();
+                                        apellidosTercero = Main.Main.noAsegurados[conteo].getApellidos();
+                                        telefonoTercero = Main.Main.noAsegurados[conteo].getTelefono();
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            if (!encontrado) {
+                //si el tercero no se encuentra registrado, lo registra en noAsegurados
+                JOptionPane.showMessageDialog(null, "El tercero no se encuentra registrado, se le creara una cuenta");
+                nombresTercero = JOptionPane.showInputDialog("Ingrese el nombres del tercero");
+                apellidosTercero = JOptionPane.showInputDialog("Ingrese los apellidos del tercero");
+                telefonoTercero = JOptionPane.showInputDialog("Ingrese el telefono del tercero");
+                for (int correlativo = 0; correlativo < Main.Main.noAsegurados.length; correlativo++) {
+                    if (Main.Main.noAsegurados[correlativo] == null) {
+                        Main.Main.noAsegurados[correlativo] = new NoAsegurado(nombresTercero, apellidosTercero, dpiTercero, telefonoTercero);
+                        exitoTercero = true;
+                        break;
+                    }
+                }
+            }
+            if (aseguradoCulpable) {
+                pagoAsegurado = deducibleAsegurado;
+                pagoTercero = 0;
+            } else {
+                pagoAsegurado = 0;
+                pagoTercero = costoReal;
+            }
+        }
+        if (exitoTercero==true&&exitoAsegurado==true) {
+            for (int conteo = 0; conteo < Main.Main.incidentes.length; conteo++) {
+                if (Main.Main.incidentes[conteo] == null) {
+                    Main.Main.incidentes[conteo] = new Incidente(codigo, dpiAsegurado, dpiTercero, rolAsegurado, rolTercero, costoReal, pagoTercero, pagoAsegurado, estado, pago, aseguradoCulpable, terceroTieneSeguro, detalle);
+                    JOptionPane.showMessageDialog(null, "Incidente creado con exito");
+                    break;
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No fue posible crear el incidente, revise los datos nuevamente");
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

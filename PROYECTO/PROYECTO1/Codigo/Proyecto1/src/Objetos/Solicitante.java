@@ -22,6 +22,7 @@ public class Solicitante {
     private double costoPrima;
     private double deducible;
     private String tipo;
+    private String status;
 
     public Solicitante(String nombres, String apellidos, String dpi, String telefono, String tipoVehiculo, String marcaVehiculo, String lineaVehiculo, String modeloVehiculo, int valorVehiculo, double costoPrima, double deducible) {
         this.nombres = nombres;
@@ -36,6 +37,7 @@ public class Solicitante {
         this.costoPrima = costoPrima;
         this.deducible = deducible;
         this.tipo="AUTOMAS";
+        this.status="EN PROCESO";
     }
 
     /**
@@ -204,6 +206,20 @@ public class Solicitante {
      */
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
     
     

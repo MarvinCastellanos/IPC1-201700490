@@ -23,6 +23,7 @@ public class Asegurado {
     private double deducible;
     private String estado;
     private String ultimaPrima;
+    private String status;
 
     public Asegurado(String nombres, String apellidos, String dpi, String telefono, String tipoVehiculo, String marcaVehiculo, String lineaVehiculo, String modeloVehiculo, int valorVehiculo, double costoPrima, double deducible) {
         this.nombres = nombres;
@@ -38,6 +39,7 @@ public class Asegurado {
         this.deducible = deducible;
         this.estado="PROTEGIDO";
         this.ultimaPrima="Hoy";
+        this.status="ACEPTADO";
     }
 
     /**
@@ -220,6 +222,20 @@ public class Asegurado {
      */
     public void setUltimaPrima(String ultimaPrima) {
         this.ultimaPrima = ultimaPrima;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
     
     

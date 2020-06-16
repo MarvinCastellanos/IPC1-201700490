@@ -374,7 +374,6 @@ public class SolicitudSeguro extends javax.swing.JFrame {
         valorEstablecido=Main.Main.tipos[tipo].getValorMax();
         
         uso= jComboBox2.getSelectedIndex();
-                System.out.println(uso);
         porcentajeUso=Main.Main.usos[uso].getAumentoPoliza();
         
         marca= jComboBox3.getSelectedIndex();

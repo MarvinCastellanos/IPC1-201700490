@@ -26,8 +26,6 @@ public class SolicitudesSeguro extends javax.swing.JFrame {
         mostrarDatos();
     }
 
-    
-    
     private void mostrarDatos() {
         modelo = new DefaultTableModel();
         modelo.addColumn("DPI");
@@ -41,27 +39,26 @@ public class SolicitudesSeguro extends javax.swing.JFrame {
         this.jTable1.setModel(modelo);
         this.jTable1.setDefaultEditor(Object.class, null);
         String info[];
-        info=new String[8];
+        info = new String[8];
 //        DecimalFormat formato1 = new DecimalFormat("#.00");
 //            jTextField5.setText(String.valueOf(formato1.format(costoPrima)));
         DecimalFormat formato1 = new DecimalFormat("#.00");
         for (int conteo = 0; conteo < Main.Main.solicitantes.length; conteo++) {
             if (Main.Main.solicitantes[conteo] != null) {
-                System.out.println("bandera");
-                info[0] = Main.Main.solicitantes[conteo].getDpi();
-                System.out.println(info[0]);
-                info[1] = Main.Main.solicitantes[conteo].getNombres();
-                info[2] = Main.Main.solicitantes[conteo].getTelefono();
-                info[3] = Main.Main.solicitantes[conteo].getTipo();
-                info[4] = Main.Main.solicitantes[conteo].getTipoVehiculo() + ", "
-                        + Main.Main.solicitantes[conteo].getModeloVehiculo() + ", "
-                        + Main.Main.solicitantes[conteo].getMarcaVehiculo() + ", "
-                        + Main.Main.solicitantes[conteo].getLineaVehiculo();
-                info[5] = Integer.toString(Main.Main.solicitantes[conteo].getValorVehiculo());
-                info[6] = String.valueOf(formato1.format(Main.Main.solicitantes[conteo].getCostoPrima()));
-                info[7] = String.valueOf(formato1.format(Main.Main.solicitantes[conteo].getDeducible()));
+                    info[0] = Main.Main.solicitantes[conteo].getDpi();
+                    System.out.println(info[0]);
+                    info[1] = Main.Main.solicitantes[conteo].getNombres();
+                    info[2] = Main.Main.solicitantes[conteo].getTelefono();
+                    info[3] = Main.Main.solicitantes[conteo].getTipo();
+                    info[4] = Main.Main.solicitantes[conteo].getTipoVehiculo() + ", "
+                            + Main.Main.solicitantes[conteo].getModeloVehiculo() + ", "
+                            + Main.Main.solicitantes[conteo].getMarcaVehiculo() + ", "
+                            + Main.Main.solicitantes[conteo].getLineaVehiculo();
+                    info[5] = Integer.toString(Main.Main.solicitantes[conteo].getValorVehiculo());
+                    info[6] = String.valueOf(formato1.format(Main.Main.solicitantes[conteo].getCostoPrima()));
+                    info[7] = String.valueOf(formato1.format(Main.Main.solicitantes[conteo].getDeducible()));
 
-                modelo.addRow(info);
+                    modelo.addRow(info);               
             }
         }
     }
@@ -114,6 +111,11 @@ public class SolicitudesSeguro extends javax.swing.JFrame {
         });
 
         jButton2.setText("RECHAZAR");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("CANCELAR");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -161,7 +163,7 @@ public class SolicitudesSeguro extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        int fila=jTable1.getSelectedRow();
+        int fila = jTable1.getSelectedRow();
         String nombre;
         String apellido;
         String dpi;
@@ -173,31 +175,41 @@ public class SolicitudesSeguro extends javax.swing.JFrame {
         int valorVehiculo;
         double costoPrima;
         double deducible;
-        
+
         System.out.println(fila);
-        
-        nombre=Main.Main.solicitantes[fila].getNombres();
-        apellido=Main.Main.solicitantes[fila].getApellidos();
-        dpi=Main.Main.solicitantes[fila].getDpi();
-        telefono=Main.Main.solicitantes[fila].getTelefono();
-        tipoVehiculo=Main.Main.solicitantes[fila].getTipoVehiculo();
-        marca=Main.Main.solicitantes[fila].getMarcaVehiculo();
-        linea=Main.Main.solicitantes[fila].getLineaVehiculo();
-        modelo=Main.Main.solicitantes[fila].getModeloVehiculo();
-        valorVehiculo=Main.Main.solicitantes[fila].getValorVehiculo();
-        costoPrima=Main.Main.solicitantes[fila].getCostoPrima();
-        deducible=Main.Main.solicitantes[fila].getDeducible();
-        
+
+        nombre = Main.Main.solicitantes[fila].getNombres();
+        apellido = Main.Main.solicitantes[fila].getApellidos();
+        dpi = Main.Main.solicitantes[fila].getDpi();
+        telefono = Main.Main.solicitantes[fila].getTelefono();
+        tipoVehiculo = Main.Main.solicitantes[fila].getTipoVehiculo();
+        marca = Main.Main.solicitantes[fila].getMarcaVehiculo();
+        linea = Main.Main.solicitantes[fila].getLineaVehiculo();
+        modelo = Main.Main.solicitantes[fila].getModeloVehiculo();
+        valorVehiculo = Main.Main.solicitantes[fila].getValorVehiculo();
+        costoPrima = Main.Main.solicitantes[fila].getCostoPrima();
+        deducible = Main.Main.solicitantes[fila].getDeducible();
+
         for (int conteo = 0; conteo < Main.Main.asegurados.length; conteo++) {
-            if (Main.Main.asegurados[conteo]==null) {
-                Objetos.Asegurado asegurado=new Objetos.Asegurado(nombre, apellido, dpi, telefono, tipoVehiculo, marca, linea, modelo, valorVehiculo, costoPrima, deducible);
-                Main.Main.asegurados[conteo]= asegurado;
+            if (Main.Main.asegurados[conteo] == null) {
+                Objetos.Asegurado asegurado = new Objetos.Asegurado(nombre, apellido, dpi, telefono, tipoVehiculo, marca, linea, modelo, valorVehiculo, costoPrima, deducible);
+                Main.Main.asegurados[conteo] = asegurado;
+                Main.Main.solicitantes[conteo].setStatus("ACEPTADO");
                 System.out.println("agregado");
                 break;
             }
         }
         JOptionPane.showMessageDialog(null, "Se ha agregado el usuario");
+        mostrarDatos();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int fila = jTable1.getSelectedRow();
+        Main.Main.solicitantes[fila].setStatus("RECHAZADO");
+        JOptionPane.showMessageDialog(null, "El solicitante ha sido rechazado con exito");
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
