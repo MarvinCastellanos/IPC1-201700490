@@ -306,7 +306,7 @@ public class ReporteIncidente extends javax.swing.JFrame {
         String detalle[][] = this.detalle;
 
         boolean exitoTercero = false;//si el incidente para el tercero se realiza con exito
-        boolean exitoAsegurado=false;//si el incidente para el asegurado se realiza con exito
+        boolean exitoAsegurado = false;//si el incidente para el asegurado se realiza con exito
         boolean encontrado = false;//si el tercero es encontrado en banca de datos
 
         dpiAsegurado = jTextField1.getText();
@@ -343,9 +343,9 @@ public class ReporteIncidente extends javax.swing.JFrame {
             }
         }
         for (int conteo = 0; conteo < Main.Main.asegurados.length; conteo++) {
-            if (Main.Main.asegurados[conteo]!=null) {
+            if (Main.Main.asegurados[conteo] != null) {
                 if (Main.Main.asegurados[conteo].getDpi().equals(dpiAsegurado)) {
-                    exitoAsegurado=true;
+                    exitoAsegurado = true;
                     break;
                 }
             }
@@ -373,16 +373,26 @@ public class ReporteIncidente extends javax.swing.JFrame {
             for (int conteo = 0; conteo < Main.Main.asegurados.length; conteo++) {
                 if (Main.Main.asegurados[conteo] != null) {//verifica que el tercero no este en la banca de datos de asegurados
                     if (Main.Main.asegurados[conteo].getDpi().equals(dpiTercero)) {
-                        JOptionPane.showMessageDialog(null, "El Tercero aparece en nuestro banco de datos de asegurados, verifique nuevamente");
+                        //JOptionPane.showMessageDialog(null, "El Tercero aparece en nuestro banco de datos de asegurados, verifique nuevamente");
                         encontrado = true;
-                        exitoTercero = false;
+                        exitoTercero = true;
+                        for (int correlativo = 0; correlativo < Main.Main.noAsegurados.length; correlativo++) {
+                            if (Main.Main.noAsegurados[conteo] != null) {
+                                if (Main.Main.noAsegurados[0].equals(dpiTercero)) {
+                                    nombresTercero = Main.Main.noAsegurados[conteo].getNombres();
+                                    apellidosTercero = Main.Main.noAsegurados[conteo].getApellidos();
+                                    telefonoTercero = Main.Main.noAsegurados[conteo].getTelefono();
+                                    break;
+                                }
+                            }
+                        }
                         break;
                     }
                     if (Main.Main.noAsegurados[conteo] != null) {
                         if (Main.Main.noAsegurados[conteo].getDpi().equals(dpiTercero)) {
                             System.out.println("El tercero esta registrado en la banca de datos de no asegurados,verifique nuevamente");
                             encontrado = true;
-                            exitoTercero=true;
+                            exitoTercero = true;
                             for (int correlativo = 0; correlativo < Main.Main.noAsegurados.length; correlativo++) {
                                 if (Main.Main.noAsegurados[conteo] != null) {
                                     if (Main.Main.noAsegurados[0].equals(dpiTercero)) {
@@ -398,7 +408,7 @@ public class ReporteIncidente extends javax.swing.JFrame {
                     }
                 }
             }
-            
+
             if (!encontrado) {
                 //si el tercero no se encuentra registrado, lo registra en noAsegurados
                 JOptionPane.showMessageDialog(null, "El tercero no se encuentra registrado, se le creara una cuenta");
@@ -421,10 +431,10 @@ public class ReporteIncidente extends javax.swing.JFrame {
                 pagoTercero = costoReal;
             }
         }
-        if (exitoTercero==true&&exitoAsegurado==true) {
+        if (exitoTercero == true && exitoAsegurado == true) {
             for (int conteo = 0; conteo < Main.Main.incidentes.length; conteo++) {
                 if (Main.Main.incidentes[conteo] == null) {
-                    Main.Main.incidentes[conteo] = new Incidente(codigo, dpiAsegurado, dpiTercero, rolAsegurado, rolTercero, costoReal,pagoAsegurado ,pagoTercero , estado, pago, aseguradoCulpable, terceroTieneSeguro, detalle);
+                    Main.Main.incidentes[conteo] = new Incidente(codigo, dpiAsegurado, dpiTercero, rolAsegurado, rolTercero, costoReal, pagoAsegurado, pagoTercero, estado, pago, aseguradoCulpable, terceroTieneSeguro, detalle);
                     JOptionPane.showMessageDialog(null, "Incidente creado con exito");
                     this.dispose();
                     break;

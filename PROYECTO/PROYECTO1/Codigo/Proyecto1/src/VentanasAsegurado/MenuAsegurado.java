@@ -101,6 +101,11 @@ public class MenuAsegurado extends javax.swing.JFrame {
         });
 
         jButton3.setText("PAGOS");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("CERRAR SESIÓN");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -177,8 +182,15 @@ public class MenuAsegurado extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
+        MisIncidentes mostrar = new MisIncidentes(this.dpi);
+        mostrar.mostrar();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        Pagos mostrar= new Pagos(this.dpi);
+        mostrar.mostrar();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

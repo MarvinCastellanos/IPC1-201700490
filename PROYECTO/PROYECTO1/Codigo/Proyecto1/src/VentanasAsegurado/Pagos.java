@@ -5,21 +5,79 @@
  */
 package VentanasAsegurado;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Marvin
  */
 public class Pagos extends javax.swing.JFrame {
 
+    String dpi;
+    DefaultTableModel modelo;
+    int correlativo = 1;
     /**
      * Creates new form Pagos
      */
     public Pagos() {
         initComponents();
     }
+    public Pagos(String dpi) {
+        this.dpi=dpi;
+        initComponents();
+    }
     
     public void mostrar(){
         this.show(true);
+        llenaTextArea();
+        mostrarDatos();
+    }
+    
+    public void llenaTextArea() {
+
+        String aux = "";
+        //Se obtienen los datos del usuario
+        for (int conteo = 0; conteo < Main.Main.asegurados.length; conteo++) {
+            if (Main.Main.asegurados[conteo] != null) {
+                if (this.dpi.equals(Main.Main.asegurados[conteo].getDpi())) {
+                    aux = "NOMBRE: " + Main.Main.asegurados[conteo].getNombres() + " " + Main.Main.asegurados[conteo].getApellidos() + "\n"
+                            + "TELEFONO: " + Main.Main.asegurados[conteo].getTelefono() + "\n"
+                            + "DPI: " + Main.Main.asegurados[conteo].getDpi();
+                    break;
+                }
+            }
+        }
+        jTextArea1.setText(aux);
+    }
+    
+    private void mostrarDatos() {
+        modelo = new DefaultTableModel();
+        modelo.addColumn("CORRELATIVO");
+        modelo.addColumn("TIPO");
+        modelo.addColumn("TOTAL");
+        modelo.addColumn("FECHA INICIO");
+        modelo.addColumn("FECHA FIN");
+        modelo.addColumn("CODIGO");
+        this.jTable1.setModel(modelo);
+        this.jTable1.setDefaultEditor(Object.class, null);
+
+        String info[] = new String[6];
+        System.out.println(this.dpi);
+        for (int conteo = 0; conteo < Main.Main.pagos.length; conteo++) {
+            if (Main.Main.pagos[conteo] != null) {
+                if (this.dpi.equals(Main.Main.pagos[conteo].getDpi())) {
+                    info[0] = Integer.toString(this.correlativo);
+                    this.correlativo++;
+                    info[1] = Main.Main.pagos[conteo].getPoliza();
+                    info[2] = String.valueOf(Main.Main.pagos[conteo].getTotal());
+                    info[3] = Main.Main.pagos[conteo].getFechaInicio();
+                    info[4] = Main.Main.pagos[conteo].getFechaFin();
+                    info[5] = Integer.toString(Main.Main.pagos[conteo].getCodigo());
+
+                    modelo.addRow(info);
+                }                          
+            }
+        }
     }
     
     /**
@@ -36,7 +94,7 @@ public class Pagos extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PAGOS");
 
         jTextArea1.setEditable(false);

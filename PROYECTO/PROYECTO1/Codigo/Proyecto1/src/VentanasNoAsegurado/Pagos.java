@@ -16,7 +16,7 @@ public class Pagos extends javax.swing.JFrame {
 
     String dpi;
     DefaultTableModel modelo;
-    int correlativo=1;
+    int correlativo = 1;
 
     /**
      * Creates new form Pagos
@@ -66,19 +66,19 @@ public class Pagos extends javax.swing.JFrame {
 
         String info[] = new String[6];
         System.out.println(this.dpi);
-        for (int conteo = 0; conteo < Main.Main.incidentes.length; conteo++) {
-            if (Main.Main.incidentes[conteo] != null) {
-                if (this.dpi.equals(Main.Main.incidentes[conteo].getDpiTercero()) && Main.Main.incidentes[conteo].getPago().equals("PAGADO")) {
+        for (int conteo = 0; conteo < Main.Main.pagos.length; conteo++) {
+            if (Main.Main.pagos[conteo] != null) {
+                if (this.dpi.equals(Main.Main.pagos[conteo].getDpi())) {
                     info[0] = Integer.toString(this.correlativo);
                     this.correlativo++;
-                    info[1] = "INCIDENTE DE AUTO";
-                    info[2] = String.valueOf(Main.Main.incidentes[conteo].getPagoRequeridoTercero());
-                    info[3] = Integer.toString(Main.Main.fecha.getDia())+"/"+Integer.toString(Main.Main.fecha.getMes())+"/"+Integer.toString(Main.Main.fecha.getAnio());
-                    info[4] = Integer.toString(Main.Main.fecha.getDia())+"/"+Integer.toString(Main.Main.fecha.getMes())+"/"+Integer.toString(Main.Main.fecha.getAnio());
-                    info[5] = Integer.toString(Main.Main.incidentes[conteo].getCodigo());
+                    info[1] = Main.Main.pagos[conteo].getPoliza();
+                    info[2] = String.valueOf(Main.Main.pagos[conteo].getTotal());
+                    info[3] = Main.Main.pagos[conteo].getFechaInicio();
+                    info[4] = Main.Main.pagos[conteo].getFechaFin();
+                    info[5] = Integer.toString(Main.Main.pagos[conteo].getCodigo());
 
                     modelo.addRow(info);
-                }               
+                }                          
             }
         }
     }

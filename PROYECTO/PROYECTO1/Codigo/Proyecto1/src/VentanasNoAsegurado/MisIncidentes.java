@@ -7,6 +7,7 @@ package VentanasNoAsegurado;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import Objetos.*;
 
 /**
  *
@@ -177,6 +178,8 @@ public class MisIncidentes extends javax.swing.JFrame {
         // TODO add your handling code here:
         String dato = String.valueOf(modelo.getValueAt(jTable1.getSelectedRow(), 0));
         System.out.println(dato);
+        
+        int codigo = (int) (Math.random() * 10000) + 1;
 
        
         for (int contador = 0; contador < Main.Main.incidentes.length; contador++) {
@@ -186,6 +189,16 @@ public class MisIncidentes extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Su saldo es cero, no puede pagar.");
                     }else{
                         Main.Main.incidentes[contador].setPago("PAGADO");
+                        for (int correlativo = 0; correlativo < Main.Main.pagos.length; correlativo++) {
+                            if (Main.Main.pagos[correlativo]==null) {
+                                //crea nuevo pago
+                                Main.Main.pagos[correlativo]=new Pago(this.dpi,"INCIDENTE AUTO",Main.Main.incidentes[contador].getPagoRequeridoTercero(),
+                                Integer.toString(Main.Main.fecha.getDia())+"/"+Integer.toString(Main.Main.fecha.getMes())+"/"+
+                                        Integer.toString(Main.Main.fecha.getAnio()),Integer.toString(Main.Main.fecha.getDia())+"/"+Integer.toString(Main.Main.fecha.getMes())+"/"+
+                                        Integer.toString(Main.Main.fecha.getAnio()),codigo);
+                                break;
+                            }
+                        }
                         JOptionPane.showMessageDialog(null, "PAGO REALIZADO CON EXITO");
                     break;
                     }
