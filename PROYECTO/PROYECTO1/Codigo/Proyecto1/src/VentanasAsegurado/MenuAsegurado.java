@@ -11,14 +11,43 @@ package VentanasAsegurado;
  */
 public class MenuAsegurado extends javax.swing.JFrame {
 
+    String dpi;
     /**
      * Creates new form MenuAsegurado
      */
     public MenuAsegurado() {
         initComponents();
     }
+    
+    public MenuAsegurado(String dpi) {
+        this.dpi=dpi;
+        initComponents();
+    }
     public void mostrar(){
         this.show(true);
+        llenaTextArea();
+    }
+    
+    public void llenaTextArea() {
+        //llena fecha
+        String fechaAux;
+        fechaAux = Integer.toString(Main.Main.fecha.getDia()) + "/" + Integer.toString(Main.Main.fecha.getMes()) + "/" + Integer.toString(Main.Main.fecha.getAnio());
+        jTextField1.setText(fechaAux);
+        
+        //llena textArea
+        String aux = "";
+        //Se obtienen los datos del usuario
+        for (int conteo = 0; conteo < Main.Main.asegurados.length; conteo++) {
+            if (Main.Main.asegurados[conteo] != null) {
+                if (this.dpi.equals(Main.Main.asegurados[conteo].getDpi())) {
+                    aux = "NOMBRE: " + Main.Main.asegurados[conteo].getNombres() + " " + Main.Main.asegurados[conteo].getApellidos() + "\n"
+                            + "TELEFONO: " + Main.Main.asegurados[conteo].getTelefono() + "\n"
+                            + "DPI: " + Main.Main.asegurados[conteo].getDpi();
+                    break;
+                }
+            }
+        }
+        jTextArea1.setText(aux);
     }
     
     /**
@@ -42,7 +71,7 @@ public class MenuAsegurado extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("MENU ASEGURADO");
 
         jScrollPane1.setEnabled(false);
@@ -65,10 +94,20 @@ public class MenuAsegurado extends javax.swing.JFrame {
         jButton1.setText("MIS SEGUROS");
 
         jButton2.setText("MIS INCIDENTES");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("PAGOS");
 
         jButton4.setText("CERRAR SESIÓN");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,6 +167,18 @@ public class MenuAsegurado extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        VentanasPrincipal.Principal mostrar = new VentanasPrincipal.Principal();
+        mostrar.mostrar();
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

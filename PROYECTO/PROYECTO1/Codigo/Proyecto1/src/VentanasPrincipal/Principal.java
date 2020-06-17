@@ -6,19 +6,19 @@
 package VentanasPrincipal;
 
 import javax.swing.JOptionPane;
-
+import Objetos.*;
+import VentanasNoAsegurado.MenuNoAsegurado;
+import VentanasAsegurado.MenuAsegurado;
 /**
  *
  * @author Marvin
  */
 public class Principal extends javax.swing.JFrame {
-
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
-        
     }
     
     public void mostrar(){
@@ -161,11 +161,43 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        boolean ingreso=false;
         String usuario = JOptionPane.showInputDialog("Ingrese su DPI");
+        //si el dpi ingresado es ADMIN diriga a menu admin
         if (String.valueOf(usuario).equals("ADMIN")) {
             VentanasAdmin.MenuAdmin mostrar = new VentanasAdmin.MenuAdmin();
             mostrar.mostrar();
+            ingreso=true;
             this.dispose();
+        }
+        
+        //recorre banco de datos asegurado y si coindiden dpi abre una ventana
+        for (int conteo = 0; conteo < Main.Main.asegurados.length; conteo++) {
+            if (Main.Main.asegurados[conteo]!=null) {
+                if (String.valueOf(usuario).equals(Main.Main.asegurados[conteo].getDpi())) {
+                    MenuAsegurado mostrar = new MenuAsegurado(Main.Main.asegurados[conteo].getDpi());
+                    mostrar.mostrar();
+                    ingreso=true;
+                    this.dispose();
+                    break;
+                }
+            }
+        }
+        
+        //recorre banco de datos no asegurado y si coinciden dpi abre una ventana
+        for (int conteo = 0; conteo < Main.Main.noAsegurados.length; conteo++) {
+            if (Main.Main.noAsegurados[conteo]!=null) {
+                if (String.valueOf(usuario).equals(Main.Main.noAsegurados[conteo].getDpi())) {
+                    MenuNoAsegurado mostrar=new MenuNoAsegurado(Main.Main.noAsegurados[conteo].getDpi());
+                    mostrar.mostrar();
+                    ingreso=true;
+                    this.dispose();
+                    break;
+                }
+            }
+        }
+        if (!ingreso) {
+            JOptionPane.showMessageDialog(null, "El DPI NO SE ENCUENTRA REGISTRADO.\n VERIFIQUE SUS DATOS O SOLICITE UN SEGURO");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

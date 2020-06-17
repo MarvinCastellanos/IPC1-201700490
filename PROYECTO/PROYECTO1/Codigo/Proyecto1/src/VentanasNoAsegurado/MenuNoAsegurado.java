@@ -11,17 +11,45 @@ package VentanasNoAsegurado;
  */
 public class MenuNoAsegurado extends javax.swing.JFrame {
 
+    String dpi;
+
     /**
      * Creates new form MenuNoAsegurado
      */
     public MenuNoAsegurado() {
         initComponents();
     }
-    
-    public void mostrar(){
-        this.show(true);
+
+    public MenuNoAsegurado(String dpi) {
+        this.dpi = dpi;
+        initComponents();
     }
-    
+
+    public void mostrar() {
+        this.show(true);
+        llenaTextArea();
+    }
+
+    //llena textArea y fecha
+    public void llenaTextArea() {
+        String fechaAux;
+        fechaAux = Integer.toString(Main.Main.fecha.getDia()) + "/" + Integer.toString(Main.Main.fecha.getMes()) + "/" + Integer.toString(Main.Main.fecha.getAnio());
+        jTextField1.setText(fechaAux);
+        String aux = "";
+        //Se obtienen los datos del usuario
+        for (int conteo = 0; conteo < Main.Main.noAsegurados.length; conteo++) {
+            if (Main.Main.noAsegurados[conteo] != null) {
+                if (this.dpi.equals(Main.Main.noAsegurados[conteo].getDpi())) {
+                    aux = "NOMBRE: " + Main.Main.noAsegurados[conteo].getNombres() + " " + Main.Main.noAsegurados[conteo].getApellidos() + "\n"
+                            + "TELEFONO: " + Main.Main.noAsegurados[conteo].getTelefono() + "\n"
+                            + "DPI: " + Main.Main.noAsegurados[conteo].getDpi();
+                    break;
+                }
+            }
+        }
+        jTextArea1.setText(aux);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,10 +69,15 @@ public class MenuNoAsegurado extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("MENU NO ASEGURADO");
 
         jButton1.setText("CERRAR SESIÓN");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -60,8 +93,18 @@ public class MenuNoAsegurado extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesNoAsegurado/MNoAsegurado_Pagos.PNG"))); // NOI18N
 
         jButton2.setText("MIS INCIDENTES");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("PAGOS");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -113,6 +156,25 @@ public class MenuNoAsegurado extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        VentanasPrincipal.Principal mostrar = new VentanasPrincipal.Principal();
+        mostrar.mostrar();
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        MisIncidentes mostrar= new MisIncidentes(this.dpi);
+        mostrar.mostrar();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        Pagos mostrar = new Pagos(this.dpi);
+        mostrar.mostrar();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

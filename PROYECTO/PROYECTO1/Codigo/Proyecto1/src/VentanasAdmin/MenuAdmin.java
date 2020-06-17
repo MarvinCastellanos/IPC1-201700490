@@ -5,6 +5,8 @@
  */
 package VentanasAdmin;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Marvin
@@ -58,6 +60,11 @@ public class MenuAdmin extends javax.swing.JFrame {
         });
 
         jButton2.setText("CAMBIAR FECHA");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesAdmin/MAdmin_SolicitudSeguro.PNG"))); // NOI18N
 
@@ -230,6 +237,20 @@ public class MenuAdmin extends javax.swing.JFrame {
         Reportes mostrar = new Reportes();
         mostrar.mostrar();
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String fecha=JOptionPane.showInputDialog("Ingrese la nueva fecha con el formato: dia/mes/año");
+        String arregloFechaAux[] = fecha.split("/", 0);
+        System.out.println("bandera");
+        Main.Main.fecha.setDia(Integer.valueOf(arregloFechaAux[0]));
+        Main.Main.fecha.setMes(Integer.valueOf(arregloFechaAux[1]));
+        Main.Main.fecha.setAnio(Integer.valueOf(arregloFechaAux[2]));
+        
+        JOptionPane.showMessageDialog(null, "Se ha cambiado la fecha a: "+Main.Main.fecha.getDia()+"/"+
+                Main.Main.fecha.getMes()+"/"+Main.Main.fecha.getAnio());
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

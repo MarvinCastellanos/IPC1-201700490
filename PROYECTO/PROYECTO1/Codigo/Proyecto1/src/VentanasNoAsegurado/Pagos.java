@@ -5,11 +5,18 @@
  */
 package VentanasNoAsegurado;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Marvin
  */
 public class Pagos extends javax.swing.JFrame {
+
+    String dpi;
+    DefaultTableModel modelo;
+    int correlativo=1;
 
     /**
      * Creates new form Pagos
@@ -18,10 +25,64 @@ public class Pagos extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void mostrar(){
-        this.show(true);
+    public Pagos(String dpi) {
+        this.dpi = dpi;
+        initComponents();
     }
-    
+
+    public void mostrar() {
+        this.show(true);
+        llenaTextArea();
+        mostrarDatos();
+    }
+
+    public void llenaTextArea() {
+
+        String aux = "";
+        //Se obtienen los datos del usuario
+        for (int conteo = 0; conteo < Main.Main.noAsegurados.length; conteo++) {
+            if (Main.Main.noAsegurados[conteo] != null) {
+                if (this.dpi.equals(Main.Main.noAsegurados[conteo].getDpi())) {
+                    aux = "NOMBRE: " + Main.Main.noAsegurados[conteo].getNombres() + " " + Main.Main.noAsegurados[conteo].getApellidos() + "\n"
+                            + "TELEFONO: " + Main.Main.noAsegurados[conteo].getTelefono() + "\n"
+                            + "DPI: " + Main.Main.noAsegurados[conteo].getDpi();
+                    break;
+                }
+            }
+        }
+        jTextArea1.setText(aux);
+    }
+
+    private void mostrarDatos() {
+        modelo = new DefaultTableModel();
+        modelo.addColumn("CORRELATIVO");
+        modelo.addColumn("TIPO");
+        modelo.addColumn("TOTAL");
+        modelo.addColumn("FECHA INICIO");
+        modelo.addColumn("FECHA FIN");
+        modelo.addColumn("CODIGO");
+        this.jTable1.setModel(modelo);
+        this.jTable1.setDefaultEditor(Object.class, null);
+
+        String info[] = new String[6];
+        System.out.println(this.dpi);
+        for (int conteo = 0; conteo < Main.Main.incidentes.length; conteo++) {
+            if (Main.Main.incidentes[conteo] != null) {
+                if (this.dpi.equals(Main.Main.incidentes[conteo].getDpiTercero()) && Main.Main.incidentes[conteo].getPago().equals("PAGADO")) {
+                    info[0] = Integer.toString(this.correlativo);
+                    this.correlativo++;
+                    info[1] = "INCIDENTE DE AUTO";
+                    info[2] = String.valueOf(Main.Main.incidentes[conteo].getPagoRequeridoTercero());
+                    info[3] = Integer.toString(Main.Main.fecha.getDia())+"/"+Integer.toString(Main.Main.fecha.getMes())+"/"+Integer.toString(Main.Main.fecha.getAnio());
+                    info[4] = Integer.toString(Main.Main.fecha.getDia())+"/"+Integer.toString(Main.Main.fecha.getMes())+"/"+Integer.toString(Main.Main.fecha.getAnio());
+                    info[5] = Integer.toString(Main.Main.incidentes[conteo].getCodigo());
+
+                    modelo.addRow(info);
+                }               
+            }
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,7 +97,7 @@ public class Pagos extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PAGOS");
 
         jTextArea1.setEditable(false);

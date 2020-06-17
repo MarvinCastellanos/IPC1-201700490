@@ -10,6 +10,7 @@ import Objetos .*;
  * @author Marvin
  */
 public class Main {
+    public static Fecha fecha;
     public static Tipo tipos[];
     public static Modelo modelos[];
     public static Marca marcas [];
@@ -41,6 +42,7 @@ public class Main {
     
     
     public static void main(String[] args){
+        fecha = new Fecha(01, 01, 2020);
         tipos = new Tipo[50];
         modelos = new Modelo[50];
         marcas = new Marca[50];

@@ -6,6 +6,7 @@
 package VentanasAdmin;
 
 import Objetos.Incidente;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -148,6 +149,7 @@ public class ColaTaller extends javax.swing.JFrame {
         // TODO add your handling code here:
         int fila = jTable1.getSelectedRow();
         Main.Main.incidentes[fila].setEstado("TERMINADO");
+        JOptionPane.showMessageDialog(null,"Se ha marcado como terminado");
         mostrarDatos();
     }//GEN-LAST:event_jButton1ActionPerformed
 

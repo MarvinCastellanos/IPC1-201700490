@@ -5,11 +5,17 @@
  */
 package VentanasNoAsegurado;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Marvin
  */
 public class MisIncidentes extends javax.swing.JFrame {
+
+    DefaultTableModel modelo;
+    String dpi;
 
     /**
      * Creates new form MisIncidentes
@@ -18,10 +24,63 @@ public class MisIncidentes extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void mostrar(){
-        this.show(true);
+    public MisIncidentes(String dpi) {
+        this.dpi = dpi;
+        modelo = new DefaultTableModel();
+        initComponents();
     }
-    
+
+    public void mostrar() {
+        this.show(true);
+        mostrarDatos();
+        llenaTextArea();
+    }
+
+    public void llenaTextArea() {
+
+        String aux = "";
+        //Se obtienen los datos del usuario
+        for (int conteo = 0; conteo < Main.Main.noAsegurados.length; conteo++) {
+            if (Main.Main.noAsegurados[conteo] != null) {
+                if (this.dpi.equals(Main.Main.noAsegurados[conteo].getDpi())) {
+                    aux = "NOMBRE: " + Main.Main.noAsegurados[conteo].getNombres() + " " + Main.Main.noAsegurados[conteo].getApellidos() + "\n"
+                            + "TELEFONO: " + Main.Main.noAsegurados[conteo].getTelefono() + "\n"
+                            + "DPI: " + Main.Main.noAsegurados[conteo].getDpi();
+                    break;
+                }
+            }
+        }
+        jTextArea1.setText(aux);
+    }
+
+    private void mostrarDatos() {
+        modelo = new DefaultTableModel();
+        modelo.addColumn("CODIGO");
+        modelo.addColumn("ROL");
+        modelo.addColumn("COSTO REAL");
+        modelo.addColumn("PAGO REQUERIDO");
+        modelo.addColumn("ESTADO");
+        modelo.addColumn("PAGO");
+        this.jTable1.setModel(modelo);
+        this.jTable1.setDefaultEditor(Object.class, null);
+
+        String info[] = new String[6];
+        for (int conteo = 0; conteo < Main.Main.incidentes.length; conteo++) {
+            if (Main.Main.incidentes[conteo] != null) {
+                if (this.dpi.equals(Main.Main.incidentes[conteo].getDpiTercero())) {
+                    info[0] = Integer.toString(Main.Main.incidentes[conteo].getCodigo());
+                    info[1] = Main.Main.incidentes[conteo].getRolTercero();
+                    info[2] = String.valueOf(Main.Main.incidentes[conteo].getCostoReal());
+                    info[3] = String.valueOf(Main.Main.incidentes[conteo].getPagoRequeridoTercero());
+                    info[4] = Main.Main.incidentes[conteo].getEstado();
+                    info[5] = Main.Main.incidentes[conteo].getPago();
+
+                    modelo.addRow(info);
+                }
+            }
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,7 +97,7 @@ public class MisIncidentes extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MIS INCIDENTES");
 
         jTextArea1.setEditable(false);
@@ -68,8 +127,18 @@ public class MisIncidentes extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable1);
 
         jButton1.setText("DETALLE");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("PAGAR");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -103,6 +172,65 @@ public class MisIncidentes extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String dato = String.valueOf(modelo.getValueAt(jTable1.getSelectedRow(), 0));
+        System.out.println(dato);
+
+       
+        for (int contador = 0; contador < Main.Main.incidentes.length; contador++) {
+            if (Main.Main.incidentes[contador] != null) {
+                if (dato.equals(Integer.toString(Main.Main.incidentes[contador].getCodigo()))) {
+                    if (Main.Main.incidentes[contador].isAseguradoCulpable()) {
+                        JOptionPane.showMessageDialog(null, "Su saldo es cero, no puede pagar.");
+                    }else{
+                        Main.Main.incidentes[contador].setPago("PAGADO");
+                        JOptionPane.showMessageDialog(null, "PAGO REALIZADO CON EXITO");
+                    break;
+                    }
+                }
+            }
+        }
+        mostrarDatos();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String dato = String.valueOf(modelo.getValueAt(jTable1.getSelectedRow(), 0));
+
+        String[][] detalleAux = new String[50][3];
+        String aux = "";
+
+        //se recorre banco de incidentes y ses obtiene el detalle segun su codigo de incidente
+        for (int contador = 0; contador < Main.Main.incidentes.length; contador++) {
+            if (Main.Main.incidentes[contador] != null) {
+                if (dato.equals(Integer.toString(Main.Main.incidentes[contador].getCodigo()))) {
+                    for (int fila = 0; fila < 50; fila++) {
+                        for (int columna = 0; columna < 3; columna++) {
+                            if (Main.Main.incidentes[contador] != null) {
+                                detalleAux[fila][columna] = Main.Main.incidentes[contador].getDetalle()[fila][columna];
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        //se genera string usando el detalle obtenido
+        for (int fila = 0; fila < 50; fila++) {
+            if (detalleAux[fila][0]!=null) {
+                for (int columna = 0; columna < 3; columna++) {
+                aux = aux + detalleAux[fila][columna] + " ";
+            }
+            aux = aux + "\n";
+            }else{
+                break;
+            }           
+        }
+        //se imprime string geneado
+        JOptionPane.showMessageDialog(null, aux);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

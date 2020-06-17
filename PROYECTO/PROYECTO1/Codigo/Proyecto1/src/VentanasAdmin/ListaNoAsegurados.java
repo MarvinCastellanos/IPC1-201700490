@@ -5,21 +5,46 @@
  */
 package VentanasAdmin;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Marvin
  */
 public class ListaNoAsegurados extends javax.swing.JFrame {
 
+    DefaultTableModel modelo;
+
     /**
      * Creates new form ListaNoAsegurados
      */
     public ListaNoAsegurados() {
         initComponents();
+        mostrarDatos();
+    }
+
+    public void mostrar() {
+        this.show(true);
     }
     
-    public void mostrar(){
-        this.show(true);
+    private void mostrarDatos() {
+        modelo = new DefaultTableModel();
+        modelo.addColumn("DPI");
+        modelo.addColumn("NOMBRE");
+        modelo.addColumn("TELEFONO");
+        this.jTable1.setModel(modelo);
+        this.jTable1.setDefaultEditor(Object.class, null);
+
+        String info[] = new String[3];
+        for (int conteo = 0; conteo < Main.Main.noAsegurados.length; conteo++) {
+            if (Main.Main.noAsegurados[conteo] != null) {
+                info[0] = Main.Main.noAsegurados[conteo].getDpi();
+                info[1] = Main.Main.noAsegurados[conteo].getNombres()+" "+Main.Main.noAsegurados[conteo].getApellidos();
+                info[2] = Main.Main.noAsegurados[conteo].getTelefono();
+
+                modelo.addRow(info);
+            }
+        }
     }
 
     /**

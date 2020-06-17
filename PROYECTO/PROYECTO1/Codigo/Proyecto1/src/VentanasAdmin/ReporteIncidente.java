@@ -424,8 +424,9 @@ public class ReporteIncidente extends javax.swing.JFrame {
         if (exitoTercero==true&&exitoAsegurado==true) {
             for (int conteo = 0; conteo < Main.Main.incidentes.length; conteo++) {
                 if (Main.Main.incidentes[conteo] == null) {
-                    Main.Main.incidentes[conteo] = new Incidente(codigo, dpiAsegurado, dpiTercero, rolAsegurado, rolTercero, costoReal, pagoTercero, pagoAsegurado, estado, pago, aseguradoCulpable, terceroTieneSeguro, detalle);
+                    Main.Main.incidentes[conteo] = new Incidente(codigo, dpiAsegurado, dpiTercero, rolAsegurado, rolTercero, costoReal,pagoAsegurado ,pagoTercero , estado, pago, aseguradoCulpable, terceroTieneSeguro, detalle);
                     JOptionPane.showMessageDialog(null, "Incidente creado con exito");
+                    this.dispose();
                     break;
                 }
             }

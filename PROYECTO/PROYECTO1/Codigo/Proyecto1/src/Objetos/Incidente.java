@@ -212,7 +212,7 @@ public class Incidente {
     /**
      * @return the detalle
      */
-    public Object[] getDetalle() {
+    public String[][] getDetalle() {
         return detalle;
     }
 
