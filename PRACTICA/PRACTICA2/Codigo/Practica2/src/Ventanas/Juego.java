@@ -11,6 +11,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import static java.lang.Thread.sleep;
 import javax.swing.JLabel;
+import Objetos.*;
+import java.awt.geom.Area;
 
 /**
  *
@@ -18,17 +20,25 @@ import javax.swing.JLabel;
  */
 public class Juego extends javax.swing.JFrame implements KeyListener {
 
+    static Nave naveEstatica;
     String nombre = "Prueba";
-    public static int vidas;
-    String poder = "ninguno";
-    public static int punteo = 0;
+    static int vidas;
+    static int poder;
+    static int velocidad;
+    static int punteo;
     int tiempo = 240;
+
     JLabel nave = new JLabel();
 
     /**
      * Creates new form Juego
      */
     public Juego() {
+        punteo = 0;
+        vidas = 3;
+        poder = 0;
+        velocidad = 1;
+
         initComponents();
         getContentPane().setBackground(Color.DARK_GRAY);
         jPanel1.setBackground(Color.black);
@@ -38,7 +48,7 @@ public class Juego extends javax.swing.JFrame implements KeyListener {
 
         jTextField1.setText(nombre);
         jTextField2.setText("" + vidas);
-        jTextField3.setText(poder);
+        jTextField3.setText("" + poder);
         jTextField4.setText("" + punteo);
         jTextField5.setText("" + tiempo);
 
@@ -51,34 +61,14 @@ public class Juego extends javax.swing.JFrame implements KeyListener {
         creaRayo();
         creaCaracol();
         creaAsteroide();
-        
-//        Coordenada coordenadaBala = new Coordenada(30, 500);
-//        Bala bala = new Bala(coordenadaBala);
-//        jPanel1.add(bala.getBala());
-//
-//        Coordenada coordenadaAsteroide = new Coordenada(100, 100);
-//        Asteroide asteroide = new Asteroide(coordenadaAsteroide);
-//        jPanel1.add(asteroide.getAsteroide());
-//
-//        Coordenada coordenadaCaracol = new Coordenada(100, 200);
-//        Caracol caracol = new Caracol(coordenadaCaracol);
-//        jPanel1.add(caracol.getCaracol());
-//
-//        Coordenada coordenadaCorazon = new Coordenada(50, 450);
-//        Corazon corazon = new Corazon(coordenadaCorazon);
-//        jPanel1.add(corazon.getCorazon());
-//
-//        Coordenada coordenadaRayo = new Coordenada(50, 500);
-//        Rayo rayo = new Rayo(coordenadaRayo);
-//        jPanel1.add(rayo.getRayo());
-//
-//        Coordenada coordenadaOjo = new Coordenada(100, 300);
-//        Ojo ojo = new Ojo(coordenadaOjo);
-//        jPanel1.add(ojo.getOjo());
+        actualizaMarcadores();
+
         Coordenada coordenadaNave = new Coordenada(0, 500);
         Nave naves = new Nave(coordenadaNave);
         this.nave = naves.getNave();
         jPanel1.add(this.nave);
+        Main.Main.naves.insertarPrincipio(naves);
+
     }
 
     public void mostrar() {
@@ -102,18 +92,38 @@ public class Juego extends javax.swing.JFrame implements KeyListener {
             this.nave.setLocation(this.nave.getX() + 100, this.nave.getY());
             System.out.println("derecha");
         }
-        
+
     }
-    
-     @Override
+
+    @Override
     public void keyReleased(KeyEvent e) {
         int tecla = e.getKeyCode();
         if (tecla == KeyEvent.VK_SPACE) {
             Bala bala = new Bala(this.nave.getLocation().x + 30, 500);
             jPanel1.add(bala.getBala());
+            Main.Main.balas.insertarPrincipio(bala);
         }
     }
 
+    public void actualizaMarcadores() {
+        new Thread() {
+            public void run() {
+                while (true) {
+                    tiempo--;
+                    jTextField1.setText(nombre);
+                    jTextField2.setText("" + vidas);
+                    jTextField3.setText("" + poder);
+                    jTextField4.setText("" + punteo);
+                    jTextField5.setText("" + tiempo);
+                    try {
+                        sleep(1000);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }.start();
+    }
 
     public void creaOjo() {
         new Thread() {
@@ -125,27 +135,32 @@ public class Juego extends javax.swing.JFrame implements KeyListener {
                     if (numero == 1 && contador != 0) {
                         Ojo ojo = new Ojo(30, -10);
                         jPanel1.add(ojo.getOjo());
+                        Main.Main.ojos.insertarPrincipio(ojo);
                     }
                     if (numero == 2 && contador != 0) {
                         Ojo ojo = new Ojo(130, -10);
                         jPanel1.add(ojo.getOjo());
+                        Main.Main.ojos.insertarPrincipio(ojo);
                     }
                     if (numero == 3 && contador != 0) {
                         Ojo ojo = new Ojo(230, -10);
                         jPanel1.add(ojo.getOjo());
+                        Main.Main.ojos.insertarPrincipio(ojo);
                     }
                     if (numero == 4 && contador != 0) {
                         Ojo ojo = new Ojo(330, -10);
                         jPanel1.add(ojo.getOjo());
+                        Main.Main.ojos.insertarPrincipio(ojo);
                     }
                     if (numero == 5 && contador != 0) {
                         Ojo ojo = new Ojo(430, -10);
                         jPanel1.add(ojo.getOjo());
+                        Main.Main.ojos.insertarPrincipio(ojo);
                     }
                     if (numero == 6 && contador != 0) {
                         Ojo ojo = new Ojo(530, -10);
                         jPanel1.add(ojo.getOjo());
-                        contador++;
+                        Main.Main.ojos.insertarPrincipio(ojo);
                     }
                     contador++;
                     try {
@@ -168,26 +183,32 @@ public class Juego extends javax.swing.JFrame implements KeyListener {
                     if (numero == 1 && contador != 0) {
                         Corazon corazon = new Corazon(30, -10);
                         jPanel1.add(corazon.getCorazon());
+                        Main.Main.corazones.insertarPrincipio(corazon);
                     }
                     if (numero == 2 && contador != 0) {
                         Corazon corazon = new Corazon(130, -10);
                         jPanel1.add(corazon.getCorazon());
+                        Main.Main.corazones.insertarPrincipio(corazon);
                     }
                     if (numero == 3 && contador != 0) {
                         Corazon corazon = new Corazon(230, -10);
                         jPanel1.add(corazon.getCorazon());
+                        Main.Main.corazones.insertarPrincipio(corazon);
                     }
                     if (numero == 4 && contador != 0) {
                         Corazon corazon = new Corazon(330, -10);
                         jPanel1.add(corazon.getCorazon());
+                        Main.Main.corazones.insertarPrincipio(corazon);
                     }
                     if (numero == 5 && contador != 0) {
                         Corazon corazon = new Corazon(430, -10);
                         jPanel1.add(corazon.getCorazon());
+                        Main.Main.corazones.insertarPrincipio(corazon);
                     }
                     if (numero == 6 && contador != 0) {
                         Corazon corazon = new Corazon(530, -10);
                         jPanel1.add(corazon.getCorazon());
+                        Main.Main.corazones.insertarPrincipio(corazon);
                     }
                     contador++;
                     try {
@@ -210,26 +231,32 @@ public class Juego extends javax.swing.JFrame implements KeyListener {
                     if (numero == 1 && contador != 0) {
                         Caracol caracol = new Caracol(30, -10);
                         jPanel1.add(caracol.getCaracol());
+                        Main.Main.caracoles.insertarPrincipio(caracol);
                     }
                     if (numero == 2 && contador != 0) {
                         Caracol caracol = new Caracol(130, -10);
                         jPanel1.add(caracol.getCaracol());
+                        Main.Main.caracoles.insertarPrincipio(caracol);
                     }
                     if (numero == 3 && contador != 0) {
                         Caracol caracol = new Caracol(230, -10);
                         jPanel1.add(caracol.getCaracol());
+                        Main.Main.caracoles.insertarPrincipio(caracol);
                     }
                     if (numero == 4 && contador != 0) {
                         Caracol caracol = new Caracol(330, -10);
                         jPanel1.add(caracol.getCaracol());
+                        Main.Main.caracoles.insertarPrincipio(caracol);
                     }
                     if (numero == 5 && contador != 0) {
                         Caracol caracol = new Caracol(430, -10);
                         jPanel1.add(caracol.getCaracol());
+                        Main.Main.caracoles.insertarPrincipio(caracol);
                     }
                     if (numero == 6 && contador != 0) {
                         Caracol caracol = new Caracol(530, -10);
                         jPanel1.add(caracol.getCaracol());
+                        Main.Main.caracoles.insertarPrincipio(caracol);
                     }
                     contador++;
                     try {
@@ -252,26 +279,32 @@ public class Juego extends javax.swing.JFrame implements KeyListener {
                     if (numero == 1 && contador != 0) {
                         Rayo rayo = new Rayo(30, -10);
                         jPanel1.add(rayo.getRayo());
+                        Main.Main.rayos.insertarPrincipio(rayo);
                     }
                     if (numero == 2 && contador != 0) {
                         Rayo rayo = new Rayo(130, -10);
                         jPanel1.add(rayo.getRayo());
+                        Main.Main.rayos.insertarPrincipio(rayo);
                     }
                     if (numero == 3 && contador != 0) {
                         Rayo rayo = new Rayo(230, -10);
                         jPanel1.add(rayo.getRayo());
+                        Main.Main.rayos.insertarPrincipio(rayo);
                     }
                     if (numero == 4 && contador != 0) {
                         Rayo rayo = new Rayo(330, -10);
                         jPanel1.add(rayo.getRayo());
+                        Main.Main.rayos.insertarPrincipio(rayo);
                     }
                     if (numero == 5 && contador != 0) {
                         Rayo rayo = new Rayo(430, -10);
                         jPanel1.add(rayo.getRayo());
+                        Main.Main.rayos.insertarPrincipio(rayo);
                     }
                     if (numero == 6 && contador != 0) {
                         Rayo rayo = new Rayo(530, -10);
                         jPanel1.add(rayo.getRayo());
+                        Main.Main.rayos.insertarPrincipio(rayo);
                     }
                     contador++;
                     try {
@@ -294,26 +327,32 @@ public class Juego extends javax.swing.JFrame implements KeyListener {
                     if (numero == 1 && contador != 0) {
                         Asteroide asteroide = new Asteroide(30, -10);
                         jPanel1.add(asteroide.getAsteroide());
+                        Main.Main.asteroides.insertarPrincipio(asteroide);
                     }
                     if (numero == 2 && contador != 0) {
                         Asteroide asteroide = new Asteroide(130, -10);
                         jPanel1.add(asteroide.getAsteroide());
+                        Main.Main.asteroides.insertarPrincipio(asteroide);
                     }
                     if (numero == 3 && contador != 0) {
                         Asteroide asteroide = new Asteroide(230, -10);
                         jPanel1.add(asteroide.getAsteroide());
+                        Main.Main.asteroides.insertarPrincipio(asteroide);
                     }
                     if (numero == 4 && contador != 0) {
                         Asteroide asteroide = new Asteroide(330, -10);
                         jPanel1.add(asteroide.getAsteroide());
+                        Main.Main.asteroides.insertarPrincipio(asteroide);
                     }
                     if (numero == 5 && contador != 0) {
                         Asteroide asteroide = new Asteroide(430, -10);
                         jPanel1.add(asteroide.getAsteroide());
+                        Main.Main.asteroides.insertarPrincipio(asteroide);
                     }
                     if (numero == 6 && contador != 0) {
                         Asteroide asteroide = new Asteroide(530, -10);
                         jPanel1.add(asteroide.getAsteroide());
+                        Main.Main.asteroides.insertarPrincipio(asteroide);
                     }
                     contador++;
                     try {
@@ -326,12 +365,124 @@ public class Juego extends javax.swing.JFrame implements KeyListener {
         }.start();
     }
 
-    public void colision() {
-        //colision asteroide con nave
+    public static void colision() {
+        //colision bala con objetos
+        Nave nave = Main.Main.naves.obtener(1);
+        for (int contador = 0; contador < Main.Main.balas.contar(); contador++) {
+            Bala bala = Main.Main.balas.obtener(contador);
 
+            //asteroide choca con bala
+            for (int conteo = 0; conteo < Main.Main.asteroides.contar(); conteo++) {
+                Asteroide asteroide = Main.Main.asteroides.obtener(conteo);
+                Area area1 = new Area(bala.getBala().getBounds());
+                Area area2 = new Area(asteroide.getAsteroide().getBounds());
+                Area area3 = new Area(nave.getNave().getBounds());
+                if (area1.intersects(area2.getBounds())) {
+                    System.out.println("la bala le dio al asteroide");
+                    punteo = punteo + 100;
+                    bala.getBala().setLocation(-2000, -2000);
+                    bala.detiene(true);
+                    asteroide.getAsteroide().setLocation(2000, 2000);
+                    asteroide.detiene(true);
+                }
+                if (area2.intersects(area3.getBounds())) {
+                    System.out.println("la nave le dio al caracol");
+                    asteroide.getAsteroide().setLocation(2000, 2000);
+                    asteroide.detiene(true);
+                }
+            }
+
+            //bala choca con ojo
+            for (int conteo = 0; conteo < Main.Main.ojos.contar(); conteo++) {
+                Ojo ojo = Main.Main.ojos.obtener(conteo);
+                Area area1 = new Area(ojo.getOjo().getBounds());
+                Area area2 = new Area(bala.getBala().getBounds());
+                Area area3 = new Area(nave.getNave().getBounds());
+                if (area1.intersects(area2.getBounds())) {
+                    poder++;
+                    System.out.println("la bala le dio al ojo");
+                    bala.getBala().setLocation(-2000, -2000);
+                    bala.detiene(true);
+                    ojo.getOjo().setLocation(2000, 2000);
+                    ojo.detiene(true);
+                }
+                if (area1.intersects(area3.getBounds())) {
+                    System.out.println("la nave le dio al caracol");
+                    ojo.getOjo().setLocation(2000, 2000);
+                    ojo.detiene(true);
+                }
+            }
+
+            //bala choca con rayo
+            for (int conteo = 0; conteo < Main.Main.rayos.contar(); conteo++) {
+                Rayo rayo = Main.Main.rayos.obtener(conteo);
+                Area area1 = new Area(rayo.getRayo().getBounds());
+                Area area2 = new Area(bala.getBala().getBounds());
+                Area area3 = new Area(nave.getNave().getBounds());
+                if (area1.intersects(area2.getBounds())) {
+                    if (velocidad < 6) {
+                        velocidad++;
+                    }
+                    System.out.println("la bala le dio al rayo");
+                    bala.getBala().setLocation(-2000, -2000);
+                    bala.detiene(true);
+                    rayo.getRayo().setLocation(2000, 2000);
+                    rayo.detiene(true);
+                }
+                if (area1.intersects(area3.getBounds())) {
+                    System.out.println("la nave le dio al caracol");
+                    rayo.getRayo().setLocation(2000, 2000);
+                    rayo.detiene(true);
+                }
+            }
+
+            //bala choca con corazon
+            for (int conteo = 0; conteo < Main.Main.corazones.contar(); conteo++) {
+                Corazon corazon = Main.Main.corazones.obtener(conteo);
+                Area area1 = new Area(corazon.getCorazon().getBounds());
+                Area area2 = new Area(bala.getBala().getBounds());
+                Area area3 = new Area(nave.getNave().getBounds());
+                if (area1.intersects(area2.getBounds())) {
+                    if (vidas < 3) {
+                        vidas++;
+                    }
+                    System.out.println("la bala le dio al corazon");
+                    bala.getBala().setLocation(-2000, -2000);
+                    bala.detiene(true);
+                    corazon.getCorazon().setLocation(2000, 2000);
+                    corazon.detiene(true);
+                }
+                if (area1.intersects(area3.getBounds())) {
+                    System.out.println("la nave le dio al caracol");
+                    corazon.getCorazon().setLocation(2000, 2000);
+                    corazon.detiene(true);
+                }
+            }
+
+            //bala choca con caracol
+            for (int conteo = 0; conteo < Main.Main.caracoles.contar(); conteo++) {
+                Caracol caracol = Main.Main.caracoles.obtener(conteo);
+                Area area1 = new Area(caracol.getCaracol().getBounds());
+                Area area2 = new Area(bala.getBala().getBounds());
+                Area area3 = new Area(nave.getNave().getBounds());
+                if (area1.intersects(area2.getBounds())) {
+                    if (velocidad != 1) {
+                        velocidad--;
+                    }
+                    System.out.println("la bala le dio al caracol");
+                    bala.getBala().setLocation(-2000, -2000);
+                    bala.detiene(true);
+                    caracol.getCaracol().setLocation(2000, 2000);
+                    caracol.detiene(true);
+                }
+                if (area1.intersects(area3.getBounds())) {
+                    System.out.println("la nave le dio al caracol");
+                    caracol.getCaracol().setLocation(2000, 2000);
+                    caracol.detiene(true);
+                }
+            }
+        }
     }
-
-   
 
     /**
      * This method is called from within the constructor to initialize the form.

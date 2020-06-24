@@ -15,6 +15,7 @@ import javax.swing.JLabel;
  */
 public class Ojo extends Coordenada{
     JLabel ojo=new JLabel();
+    boolean continua=false;
 
     public Ojo(Coordenada coordenada) {
         super.setX(coordenada.getX());
@@ -45,12 +46,16 @@ public class Ojo extends Coordenada{
         super.setY(coordenadaNueva.getY());
     }
     
+    public void detiene(boolean continua){
+        this.continua=continua;
+    }
+    
     public void mueveOjo(){         
         new Thread(){
             public void run(){
                 int x=ojo.getX();
                 int y=ojo.getY();
-                while(true){
+                while(!continua){
                     y++;
                     if (y>800) {
                         ojo.setLocation(-100, -100);

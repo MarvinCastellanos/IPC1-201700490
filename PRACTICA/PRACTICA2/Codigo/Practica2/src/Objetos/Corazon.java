@@ -15,6 +15,7 @@ import javax.swing.JLabel;
  */
 public class Corazon extends Coordenada{
     JLabel corazon=new JLabel();
+    boolean continua=false;
 
     public Corazon(Coordenada coordenada) {
         super.setX(coordenada.getX());
@@ -28,6 +29,10 @@ public class Corazon extends Coordenada{
         super.setY(y);
         this.agrega();
         mueveCorazon();
+    }
+    
+     public void detiene(boolean continua){
+        this.continua=continua;
     }
     
     public void agrega(){
@@ -49,7 +54,7 @@ public class Corazon extends Coordenada{
             public void run(){
                 int x=corazon.getX();
                 int y=corazon.getY();
-                while(true){
+                while(!continua){
                     y++;
                     if (y>800) {
                         corazon.setLocation(-100, -100);

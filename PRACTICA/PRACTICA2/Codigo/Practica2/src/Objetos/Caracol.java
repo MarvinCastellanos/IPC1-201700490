@@ -15,6 +15,7 @@ import javax.swing.JLabel;
  */
 public class Caracol extends Coordenada{
     JLabel caracol=new JLabel();
+    boolean continua=false;
 
     public Caracol(Coordenada coordenada) {
         super.setX(coordenada.getX());
@@ -36,6 +37,10 @@ public class Caracol extends Coordenada{
         this.caracol.setVisible(true);
     }
     
+    public void detiene(boolean continua){
+        this.continua=continua;
+    }
+    
     public JLabel getCaracol(){
         return this.caracol;
     }
@@ -51,7 +56,7 @@ public class Caracol extends Coordenada{
             public void run(){
                 int x=caracol.getX();
                 int y=caracol.getY();
-                while(true){
+                while(!continua){
                     y++;
                     if (y>800) {
                         caracol.setLocation(-100, -100);

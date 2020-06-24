@@ -15,6 +15,7 @@ import javax.swing.JLabel;
  */
 public class Rayo extends Coordenada{
     JLabel rayo=new JLabel();
+    boolean continua=false;
 
     public Rayo(Coordenada coordenada) {
         super.setX(coordenada.getX());
@@ -28,6 +29,10 @@ public class Rayo extends Coordenada{
         super.setY(y);
         this.agrega();
         mueveRayo();
+    }
+    
+    public void detiene(boolean continua){
+        this.continua=continua;
     }
     
     public void agrega(){
@@ -50,7 +55,7 @@ public class Rayo extends Coordenada{
             public void run(){
                 int x=rayo.getX();
                 int y=rayo.getY();
-                while(true){
+                while(!continua){
                     y++;
                     if (y>800) {
                         rayo.setLocation(-100, -100);

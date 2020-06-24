@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 public class Asteroide extends Coordenada{
     
     JLabel asteroide= new JLabel();
+    boolean continua=false;
 
     public Asteroide(Coordenada coordenada) {
         super.setX(coordenada.getX());
@@ -52,13 +53,16 @@ public class Asteroide extends Coordenada{
         super.setY(y);
     }
     
+    public void detiene(boolean continua){
+        this.continua=continua;
+    }
     public void mueveAsteroide(){
          
         new Thread(){
             public void run(){
                 int x=asteroide.getX();
                 int y=asteroide.getY();
-                while(true){
+                while(!continua){
                     y++;
                     if (y>800) {
                         asteroide.setLocation(-100, -100);

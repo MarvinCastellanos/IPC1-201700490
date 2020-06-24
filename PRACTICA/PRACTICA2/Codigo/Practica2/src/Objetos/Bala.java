@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 public class Bala extends Coordenada {
 
     JLabel bala = new JLabel();
+    boolean continua=false;
 
     public Bala(Coordenada coordenada) {
         super.setX(coordenada.getX());
@@ -24,7 +25,7 @@ public class Bala extends Coordenada {
         this.agrega();
         mueveBala();
     }
-    
+
     public Bala(int x, int y) {
         super.setX(x);
         super.setY(y);
@@ -32,6 +33,9 @@ public class Bala extends Coordenada {
         mueveBala();
     }
 
+    public void detiene(boolean continua){
+        this.continua=continua;
+    }
     private void agrega() {
         this.bala.setIcon(new ImageIcon("src\\Imagenes\\Misil.png"));
         this.bala.setBounds(this.getX(), this.getY(), 100, 100);
@@ -46,31 +50,32 @@ public class Bala extends Coordenada {
         super.setX(coordenadaNueva.getX());
         super.setY(coordenadaNueva.getY());
     }
-    
+
     public void actualizaCoordenada(int x, int y) {
         super.setX(x);
         super.setY(y);
     }
-    
-     public void mueveBala(){
-         
-        new Thread(){
-            public void run(){
-                int x=bala.getX();
-                int y=bala.getY();
-                while(true){
+
+    public void mueveBala() {
+
+        new Thread() {
+            public void run() {
+                int x = bala.getX();
+                int y = bala.getY();
+                while (!continua) {
                     y--;
-                    if (y<-30) {
+                    if (y < -30) {
                         //y=500;
-                        bala.setLocation(-200, -200);
+                        bala.setLocation(-2000, -2000);
                         break;
-                    }                  
+                    }
                     bala.setLocation(x, y);
-                    
-                    try{
+
+                    try {
+                        Ventanas.Juego.colision();
                         sleep(10);
-                    }catch(Exception e){
-                        
+                    } catch (Exception e) {
+
                     }
                 }
             }

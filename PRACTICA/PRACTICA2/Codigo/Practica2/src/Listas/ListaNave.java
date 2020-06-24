@@ -1,26 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Listas;
 import Objetos.*;
-/**
- *
- * @author Marvin
- */
-public class ListaBalas {
+
+public class ListaNave {
 
     private Nodo cabeza;
     private int longitud = 0;
 
     private class Nodo {
 
-        public Bala bala;
+        public Nave nave;
         public Nodo siguiente = null;
 
-        public Nodo(Bala bala) {
-            this.bala = bala;
+        public Nodo(Nave nave) {
+            this.nave = nave;
         }
     }
 
@@ -28,15 +21,15 @@ public class ListaBalas {
         return cabeza == null;
     }
 
-    public void insertarPrincipio(Bala bala) {
-        Nodo nodo = new Nodo(bala);
+    public void insertarPrincipio(Nave nave) {
+        Nodo nodo = new Nodo(nave);
         nodo.siguiente = cabeza;
         cabeza = nodo;
         longitud++;
     }
 
-    public void insertarFinal(Bala bala) {
-        Nodo nodo = new Nodo(bala);
+    public void insertarFinal(Nave nave) {
+        Nodo nodo = new Nodo(nave);
         if (cabeza == null) {
             cabeza = nodo;
         } else {
@@ -49,8 +42,8 @@ public class ListaBalas {
         longitud++;
     }
 
-    public void insertarDespues(int n, Bala bala) {
-        Nodo nodo = new Nodo(bala);
+    public void insertarDespues(int n, Nave nave) {
+        Nodo nodo = new Nodo(nave);
         if (cabeza == null) {
             cabeza = nodo;
         } else {
@@ -66,7 +59,7 @@ public class ListaBalas {
         longitud++;
     }
 
-    public Bala obtener(int n) {
+    public Nave obtener(int n) {
         if (cabeza == null) {
             return null;
         } else {
@@ -79,7 +72,7 @@ public class ListaBalas {
             if (contador != n) {
                 return null;
             } else {
-                return puntero.bala;
+                return puntero.nave;
             }
         }
     }
@@ -113,7 +106,7 @@ public class ListaBalas {
         }
     }
 
-    public void eliminarBala(int n) {
+    public void eliminarNave(int n) {
         if (n == 0) {
             Nodo primer = cabeza;
             cabeza = cabeza.siguiente;
