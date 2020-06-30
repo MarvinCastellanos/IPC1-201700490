@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Main;
-
+import Ventanas.*;
 /**
  *
  * @author Marvin
@@ -16,6 +16,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Principal mostrar = new Principal();
+        mostrar.setVisible(true);
     }
     
 }

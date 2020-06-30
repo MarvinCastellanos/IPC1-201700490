@@ -6,6 +6,7 @@
 package Listas;
 import Objeto.Bloque;
 import Nodos.NodoDoble;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Marvin
@@ -38,5 +39,40 @@ public class ListaDoble {
             nuevo.setSiguiente(null);
         }
         longitud++;
+    }
+    
+    public void eliminar(String valor){
+        NodoDoble auxiliar = cabeza;
+        if (estaVacia()) {
+            JOptionPane.showMessageDialog(null, "La lista esta vacia");
+        } else {
+            while (auxiliar.getSiguiente() != null) {
+                //si el valor a eliminar es la cabeza
+                if (auxiliar.getBloque().getValor().equals(valor)) {                   
+                    auxiliar.getSiguiente().setAnterior(null);
+                    cabeza=auxiliar.getSiguiente();
+                    auxiliar.setSiguiente(null);
+                    longitud--;
+                    return;
+                }
+                //si se recorre la lista y no se encuentra el valor
+                if (auxiliar.getSiguiente() == null) {
+                    JOptionPane.showMessageDialog(null, "No fue posible eliminarlo");
+                    //si el valor a eliminar esta en el cuerpo de la lista
+                } else if (auxiliar.getSiguiente().getBloque().getValor().equals(valor)) {
+                    auxiliar.getSiguiente().setAnterior(null);
+                    auxiliar.setSiguiente(auxiliar.getSiguiente().getSiguiente());
+                    auxiliar.getSiguiente().getAnterior().setSiguiente(null);
+                    auxiliar.getSiguiente().setAnterior(auxiliar);
+                    longitud--;
+                    break;
+                }
+                auxiliar = auxiliar.getSiguiente();
+            }
+        }
+    }
+    
+    public void resetear(){
+        cabeza=null;
     }
 }

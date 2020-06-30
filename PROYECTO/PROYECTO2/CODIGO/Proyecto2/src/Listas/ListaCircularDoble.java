@@ -6,6 +6,7 @@
 package Listas;
 import Objeto.Bloque;
 import Nodos.NodoDoble;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Marvin
@@ -39,5 +40,42 @@ public class ListaCircularDoble {
             cabeza.setAnterior(nuevo);
         }
         longitud++;
+    }
+    
+    public void eliminar(String valor){
+        NodoDoble auxiliar =cabeza;
+        if (estaVacia()) {
+            JOptionPane.showMessageDialog(null, "La Lista esta vacia");
+        }else{
+            while(auxiliar.getSiguiente()!=cabeza){
+                //si el valor a eliminar es la cabeza
+                if (auxiliar.getBloque().getValor().equals(valor)) {
+                    auxiliar.getAnterior().setSiguiente(auxiliar.getSiguiente());
+                    auxiliar.getSiguiente().setAnterior(auxiliar.getAnterior());
+                    auxiliar.setAnterior(null);
+                    auxiliar.setSiguiente(null);
+                    cabeza = auxiliar.getSiguiente();
+                    longitud--;
+                    return;
+                }
+                //si se ha recorrido la lista y no se ha encontrado igualdad
+                if (auxiliar.getSiguiente() == cabeza) {
+                    JOptionPane.showMessageDialog(null, "No fue posible eliminarlo");
+                    //si el valor se encuentra en el cuerpo de la lista
+                } else if (auxiliar.getSiguiente().getBloque().getValor().equals(valor)) {
+                    auxiliar.setSiguiente(auxiliar.getSiguiente().getSiguiente());
+                    auxiliar.getSiguiente().getSiguiente().setAnterior(auxiliar);
+                    auxiliar.getSiguiente().setSiguiente(null);
+                    auxiliar.getSiguiente().setAnterior(null);
+                    longitud--;
+                    break;
+                }
+                auxiliar = auxiliar.getSiguiente();
+            }
+        }
+    }
+    
+    public void resetear(){
+        cabeza=null;
     }
 }
