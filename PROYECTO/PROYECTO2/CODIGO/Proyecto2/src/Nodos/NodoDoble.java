@@ -11,6 +11,7 @@ import Objeto.*;
  */
 public class NodoDoble {
     private Bloque bloque;
+    private int posicion;
     private NodoDoble siguiente=null;
     private NodoDoble anterior=null;
 
@@ -58,5 +59,19 @@ public class NodoDoble {
      */
     public void setAnterior(NodoDoble anterior) {
         this.anterior = anterior;
+    }
+
+    /**
+     * @return the posicion
+     */
+    public int getPosicion() {
+        return posicion;
+    }
+
+    /**
+     * @param posicion the posicion to set
+     */
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
     }
 }

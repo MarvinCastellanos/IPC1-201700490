@@ -11,6 +11,7 @@ import Objeto.*;
  */
 public class NodoSimple {
     private Bloque bloque;
+    private int posicion;
     private NodoSimple siguiente=null;
 
     public NodoSimple(Bloque bloque) {
@@ -43,6 +44,20 @@ public class NodoSimple {
      */
     public void setSiguiente(NodoSimple siguiente) {
         this.siguiente = siguiente;
+    }
+
+    /**
+     * @return the posicion
+     */
+    public int getPosicion() {
+        return posicion;
+    }
+
+    /**
+     * @param posicion the posicion to set
+     */
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
     }
     
     

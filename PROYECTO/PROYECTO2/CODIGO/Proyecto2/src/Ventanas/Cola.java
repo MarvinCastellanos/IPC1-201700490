@@ -16,6 +16,7 @@ public class Cola extends javax.swing.JFrame {
      */
     public Cola() {
         initComponents();
+        jTextArea1.setText(Main.Main.cola.getCodigoGraphviz());
     }
 
     /**
@@ -33,6 +34,7 @@ public class Cola extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cola");
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -40,6 +42,11 @@ public class Cola extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         jButton1.setText("Encolar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Desencolar");
 
@@ -69,6 +76,13 @@ public class Cola extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        AgregaCola mostrar = new AgregaCola();
+        mostrar.setVisible(true);
+        jTextArea1.setText(Main.Main.cola.getCodigoGraphviz());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

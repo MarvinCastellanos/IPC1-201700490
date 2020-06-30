@@ -30,12 +30,14 @@ public class ListaSimple {
         NodoSimple nuevo = new NodoSimple(bloque);
         if (cabeza == null) {
             cabeza = nuevo;
+            cabeza.setPosicion(longitud+1);
         } else {
             NodoSimple auxiliar = cabeza;
             while (auxiliar.getSiguiente() != null) {
                 auxiliar = auxiliar.getSiguiente();
             }
             auxiliar.setSiguiente(nuevo);
+            nuevo.setPosicion(longitud+1);
         }
         longitud++;
     }
@@ -49,6 +51,7 @@ public class ListaSimple {
                 //si el valor a eliminar es la cabeza 
                 if (auxiliar.getBloque().getValor().equals(valor)) {
                     cabeza = auxiliar.getSiguiente();
+                    auxiliar.setSiguiente(null);
                     longitud--;
                     return;
                 }
@@ -58,7 +61,6 @@ public class ListaSimple {
                     //si el valor esta en el cuerpo de la lista
                 } else if (auxiliar.getSiguiente().getBloque().getValor().equals(valor)) {
                     auxiliar.setSiguiente(auxiliar.getSiguiente().getSiguiente());
-                    auxiliar.getSiguiente().setSiguiente(null);
                     longitud--;
                     break;
                 }
@@ -69,5 +71,28 @@ public class ListaSimple {
 
     public void resetear() {
         cabeza = null;
+    }
+
+    public String getCodigoGraphviz() {
+        String codigo = "";
+        NodoSimple auxiliar = cabeza;
+        codigo += "digraph G {\n";
+        if (auxiliar == null) {
+            codigo += "";
+        } else {
+            while (auxiliar.getSiguiente() != null) {
+                codigo += "" + auxiliar.getPosicion() + "[label=\"" + auxiliar.getBloque().getValor()
+                        + "," + auxiliar.getBloque().getColor() + "\"]\n";
+                if (auxiliar.getSiguiente() != null) {
+                    codigo += "" + auxiliar.getPosicion() + "->" + auxiliar.getSiguiente().getPosicion() + ";\n";
+                    auxiliar = auxiliar.getSiguiente();
+                }
+            }
+            codigo += "" + auxiliar.getPosicion() + "[label=\"" + auxiliar.getBloque().getValor()
+                    + "," + auxiliar.getBloque().getColor() + "\"]\n";
+        }
+
+        codigo += "}";
+        return codigo;
     }
 }

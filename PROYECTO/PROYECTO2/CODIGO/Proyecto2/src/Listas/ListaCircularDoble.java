@@ -25,6 +25,7 @@ public class ListaCircularDoble {
     
     public void insertar(Bloque bloque){
         NodoDoble nuevo= new NodoDoble(bloque);
+        nuevo.setPosicion(longitud+1);
         if (cabeza==null) {
             cabeza= nuevo;
             cabeza.setAnterior(cabeza);
@@ -64,9 +65,7 @@ public class ListaCircularDoble {
                     //si el valor se encuentra en el cuerpo de la lista
                 } else if (auxiliar.getSiguiente().getBloque().getValor().equals(valor)) {
                     auxiliar.setSiguiente(auxiliar.getSiguiente().getSiguiente());
-                    auxiliar.getSiguiente().getSiguiente().setAnterior(auxiliar);
-                    auxiliar.getSiguiente().setSiguiente(null);
-                    auxiliar.getSiguiente().setAnterior(null);
+                    auxiliar.getSiguiente().setAnterior(auxiliar);
                     longitud--;
                     break;
                 }
@@ -77,5 +76,34 @@ public class ListaCircularDoble {
     
     public void resetear(){
         cabeza=null;
+    }
+    
+    public String getCodigoGraphviz() {
+        String codigo = "";
+        NodoDoble auxiliar = cabeza;
+        codigo += "digraph G {\n";
+        if (cabeza == null) {
+            codigo += "";
+        } else {
+            while (auxiliar.getSiguiente() != cabeza) {
+                codigo += "" + auxiliar.getPosicion() + "[label=\""
+                        + auxiliar.getBloque().getValor()+","+
+                        auxiliar.getBloque().getColor()+ "\"]\n";
+                codigo += "" + auxiliar.getPosicion()+ "->"
+                        + auxiliar.getSiguiente().getPosicion()+ ";\n";
+                codigo+=""+auxiliar.getPosicion()+"->"+
+                        auxiliar.getAnterior().getPosicion()+";\n";
+                auxiliar = auxiliar.getSiguiente();
+            }
+            codigo += "" + auxiliar.getPosicion() + "[label=\""
+                        + auxiliar.getBloque().getValor()+","+
+                        auxiliar.getBloque().getColor()+ "\"]\n";
+                codigo += "" + auxiliar.getPosicion()+ "->"
+                        + auxiliar.getSiguiente().getPosicion()+ ";\n";
+                codigo+=""+auxiliar.getPosicion()+"->"+
+                        auxiliar.getAnterior().getPosicion()+";\n";
+        }
+        codigo += "}";
+        return codigo;
     }
 }

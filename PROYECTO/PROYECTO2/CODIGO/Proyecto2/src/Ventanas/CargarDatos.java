@@ -33,6 +33,7 @@ public class CargarDatos extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cargar Datos");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);

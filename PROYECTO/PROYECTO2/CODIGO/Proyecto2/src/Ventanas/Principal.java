@@ -30,6 +30,7 @@ public class Principal extends javax.swing.JFrame implements KeyListener{
         setFocusable(true);
         add(jButton8);
         jPanel1.add(jButton8);
+        System.out.println("boton");
     }
 
     /**
@@ -52,6 +53,7 @@ public class Principal extends javax.swing.JFrame implements KeyListener{
         jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Principal");
 
         jButton1.setText("Cargar Datos");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -76,7 +78,6 @@ public class Principal extends javax.swing.JFrame implements KeyListener{
             }
         });
 
-        jButton8.setText("jButton8");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
@@ -175,23 +176,27 @@ public class Principal extends javax.swing.JFrame implements KeyListener{
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
 
+        add(jButton8);
+        jPanel1.add(jButton8);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         CargarDatos mostrar = new CargarDatos();
         mostrar.setVisible(true);
+        add(jButton8);
+        jPanel1.add(jButton8);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        ListaSimple mostrar = new ListaSimple();
+        Simple mostrar = new Simple();
         mostrar.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        ListaCircularDoble mostrar = new ListaCircularDoble();
+        CircularDoble mostrar = new CircularDoble();
         mostrar.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -203,7 +208,7 @@ public class Principal extends javax.swing.JFrame implements KeyListener{
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        ListaDoble mostrar = new ListaDoble();
+        Doble mostrar = new Doble();
         mostrar.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 

@@ -22,6 +22,13 @@ public class Bloque {
         this.valor = valor;
     }
 
+    public Bloque(String color, String valor) {
+        this.color=color;
+        this.valor=valor;
+    }
+    
+    
+
     /**
      * @return the columna
      */
