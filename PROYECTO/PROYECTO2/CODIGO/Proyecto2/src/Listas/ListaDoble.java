@@ -18,6 +18,7 @@ public class ListaDoble {
 
     NodoDoble cabeza;
     int longitud;
+    int contador;
 
     public boolean estaVacia() {
         return cabeza == null;
@@ -31,7 +32,7 @@ public class ListaDoble {
         NodoDoble nuevo = new NodoDoble(bloque);
         if (cabeza == null) {
             cabeza = nuevo;
-            cabeza.setPosicion(longitud+1);
+            cabeza.setPosicion(contador+1);
             cabeza.setAnterior(null);
             cabeza.setSiguiente(null);
         } else {
@@ -42,9 +43,10 @@ public class ListaDoble {
             auxiliar.setSiguiente(nuevo);
             nuevo.setAnterior(auxiliar);
             nuevo.setSiguiente(null);
-            nuevo.setPosicion(longitud+1);
+            nuevo.setPosicion(contador+1);
         }
         longitud++;
+        contador++;
     }
 
     public void eliminar(String valor) {
@@ -55,17 +57,20 @@ public class ListaDoble {
             while (auxiliar.getSiguiente() != null) {
                 //si el valor a eliminar es la cabeza
                 if (auxiliar.getBloque().getValor().equals(valor)) {
-                    auxiliar.getSiguiente().setAnterior(null);
                     cabeza = auxiliar.getSiguiente();
-                    auxiliar.setSiguiente(null);
+                    cabeza.setAnterior(null);
                     longitud--;
-                    return;
+                    break;
                 }
                 //si se recorre la lista y no se encuentra el valor
                 if (auxiliar.getSiguiente() == null) {
                     JOptionPane.showMessageDialog(null, "No fue posible eliminarlo");
                     //si el valor a eliminar esta en el cuerpo de la lista
-                } else if (auxiliar.getSiguiente().getBloque().getValor().equals(valor)) {
+                } else if(auxiliar.getSiguiente().getBloque().getValor().equals(valor)&&auxiliar.getSiguiente().getSiguiente()==null){
+                    auxiliar.setSiguiente(null);
+                    break;
+                }
+                else if (auxiliar.getSiguiente().getBloque().getValor().equals(valor)) {
                     auxiliar.getSiguiente().setAnterior(null);
                     auxiliar.setSiguiente(auxiliar.getSiguiente().getSiguiente());
                     auxiliar.getSiguiente().getAnterior().setSiguiente(null);
@@ -75,11 +80,16 @@ public class ListaDoble {
                 }
                 auxiliar = auxiliar.getSiguiente();
             }
+            if (auxiliar.getBloque().getValor().equals(valor)&&auxiliar.getSiguiente()==null) {
+                    cabeza = null;
+                    longitud--;
+                }
         }
     }
 
     public void resetear() {
         cabeza = null;
+        longitud=0;
     }
 
     public String getCodigoGraphviz() {
@@ -103,7 +113,9 @@ public class ListaDoble {
             }
             codigo += "" + auxiliar.getPosicion() + "[label=\"" + auxiliar.getBloque().getValor()
                     + "," + auxiliar.getBloque().getColor() + "\"]\n";
-            codigo+=""+auxiliar.getPosicion()+"->"+auxiliar.getAnterior().getPosicion()+";\n";
+            if (auxiliar.getAnterior()!=null) {
+                codigo+=""+auxiliar.getPosicion()+"->"+auxiliar.getAnterior().getPosicion()+";\n";
+            }          
         }
 
         codigo += "}";

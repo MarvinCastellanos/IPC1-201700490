@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 public class ListaCircularDoble {
     NodoDoble cabeza;
     int longitud;
+    int contador;
     
     public boolean estaVacia(){
         return cabeza==null;
@@ -25,7 +26,7 @@ public class ListaCircularDoble {
     
     public void insertar(Bloque bloque){
         NodoDoble nuevo= new NodoDoble(bloque);
-        nuevo.setPosicion(longitud+1);
+        nuevo.setPosicion(contador+1);
         if (cabeza==null) {
             cabeza= nuevo;
             cabeza.setAnterior(cabeza);
@@ -41,6 +42,7 @@ public class ListaCircularDoble {
             cabeza.setAnterior(nuevo);
         }
         longitud++;
+        contador++;
     }
     
     public void eliminar(String valor){
@@ -53,11 +55,9 @@ public class ListaCircularDoble {
                 if (auxiliar.getBloque().getValor().equals(valor)) {
                     auxiliar.getAnterior().setSiguiente(auxiliar.getSiguiente());
                     auxiliar.getSiguiente().setAnterior(auxiliar.getAnterior());
-                    auxiliar.setAnterior(null);
-                    auxiliar.setSiguiente(null);
                     cabeza = auxiliar.getSiguiente();
                     longitud--;
-                    return;
+                    break;
                 }
                 //si se ha recorrido la lista y no se ha encontrado igualdad
                 if (auxiliar.getSiguiente() == cabeza) {
@@ -71,11 +71,16 @@ public class ListaCircularDoble {
                 }
                 auxiliar = auxiliar.getSiguiente();
             }
+            if (cabeza.getBloque().getValor().equals(valor)) {
+                cabeza=null;
+                longitud--;
+            }
         }
     }
     
     public void resetear(){
         cabeza=null;
+        longitud=0;
     }
     
     public String getCodigoGraphviz() {

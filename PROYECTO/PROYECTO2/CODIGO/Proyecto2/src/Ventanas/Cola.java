@@ -5,6 +5,9 @@
  */
 package Ventanas;
 
+import static java.lang.Thread.sleep;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Marvin
@@ -16,7 +19,22 @@ public class Cola extends javax.swing.JFrame {
      */
     public Cola() {
         initComponents();
-        jTextArea1.setText(Main.Main.cola.getCodigoGraphviz());
+        actualizaTablero();
+    }
+    
+    public void actualizaTablero() {
+        new Thread() {
+            public void run() {
+                while (true) {
+                    jTextArea1.setText(Main.Main.cola.getCodigoGraphviz());
+                    try {
+                        sleep(2000);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }.start();
     }
 
     /**
@@ -49,6 +67,11 @@ public class Cola extends javax.swing.JFrame {
         });
 
         jButton2.setText("Desencolar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,6 +106,12 @@ public class Cola extends javax.swing.JFrame {
         mostrar.setVisible(true);
         jTextArea1.setText(Main.Main.cola.getCodigoGraphviz());
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:       
+        Main.Main.cola.desencolar();
+        jTextArea1.setText(Main.Main.cola.getCodigoGraphviz());
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -9,19 +9,25 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import Ventanas.*;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import javax.swing.JFileChooser;
+import Objeto.Bloque;
 
 /**
  *
  * @author Marvin
  */
-public class Principal extends javax.swing.JFrame implements KeyListener{
+public class Principal extends javax.swing.JFrame implements KeyListener {
 
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
-        
+
         getContentPane().setBackground(Color.white);
         jPanel1.setBackground(Color.DARK_GRAY);
         getContentPane().add(jPanel1);
@@ -63,6 +69,11 @@ public class Principal extends javax.swing.JFrame implements KeyListener{
         });
 
         jButton2.setText("Reiniciar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Lista Doble");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -180,12 +191,49 @@ public class Principal extends javax.swing.JFrame implements KeyListener{
         jPanel1.add(jButton8);
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    public void borraTablero(){
+        for (int contador = 0; contador < Main.Main.listaSimple.longitud(); contador++) {
+            Main.Main.listaSimple.obtener(contador).getBloque().setBounds(2000, 2000, 100, 100);
+        }
+    }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        CargarDatos mostrar = new CargarDatos();
-        mostrar.setVisible(true);
-        add(jButton8);
-        jPanel1.add(jButton8);
+        JFileChooser busca = new JFileChooser();
+        busca.showOpenDialog(busca);
+        try {
+            String ruta = busca.getSelectedFile().getAbsolutePath();
+            FileInputStream archivo = new FileInputStream(ruta);
+            DataInputStream entrada = new DataInputStream(archivo);
+            BufferedReader lector = new BufferedReader(new InputStreamReader(entrada));
+
+            String lineas;
+            while ((lineas = lector.readLine()) != null) {
+                System.out.println(lineas);
+                if (lineas.equals("")) {
+                    System.out.println("Esta linea no");
+                } else {
+                    String arregloAux[] = lineas.split(",", 0);
+                    if (arregloAux.length != 4) {
+                        
+                    } else {
+                        //int fila, int columna, String valor, String color
+                        Bloque nuevo = new Bloque(Integer.parseInt(arregloAux[0]),
+                                Integer.parseInt(arregloAux[1]), arregloAux[2], arregloAux[3]);
+                        jPanel1.add(nuevo.getBloque());
+                        nuevo.getBloque().setBounds(nuevo.getBloque().getLocation().x+1, 
+                                nuevo.getBloque().getLocation().y+1, 100, 100);
+                        nuevo.getBloque().setBounds(nuevo.getBloque().getLocation().x-1, 
+                                nuevo.getBloque().getLocation().y-1, 100, 100);
+                        Main.Main.listaSimple.insertar(nuevo);
+                        System.out.println("se inserto");
+                    }
+                }
+
+            }
+        } catch (Exception ex) {
+            //System.out.println("No se pudo cargar el archivo");
+        }        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -214,9 +262,21 @@ public class Principal extends javax.swing.JFrame implements KeyListener{
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        Cola mostrar= new Cola();
+        Cola mostrar = new Cola();
         mostrar.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        borraTablero();
+        Main.Main.circular.resetear();
+        Main.Main.cola.resetear();
+        Main.Main.listaDoble.resetear();
+        Main.Main.listaSimple.resetear();
+        Main.Main.pila.resetear();
+        
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -281,7 +341,7 @@ public class Principal extends javax.swing.JFrame implements KeyListener{
             System.out.println("Abajo");
         }
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -294,5 +354,4 @@ public class Principal extends javax.swing.JFrame implements KeyListener{
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
-    
 }

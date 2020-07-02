@@ -7,6 +7,7 @@ package Listas;
 
 import Nodos.NodoSimple;
 import Objeto.Bloque;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,6 +17,7 @@ public class ListaPila {
 
     private NodoSimple cabeza;
     private int longitud = 0;
+    int contador;
 
     public boolean estaVacia() {
         return cabeza == null;
@@ -29,48 +31,63 @@ public class ListaPila {
         NodoSimple nuevo = new NodoSimple(bloque);
         if (cabeza == null) {
             cabeza = nuevo;
-            cabeza.setPosicion(longitud+1);
+            cabeza.setPosicion(contador + 1);
         } else {
             NodoSimple auxiliar = cabeza;
             nuevo.setSiguiente(auxiliar);
             cabeza = nuevo;
-            nuevo.setPosicion(longitud+1);
+            nuevo.setPosicion(contador + 1);
         }
         longitud++;
+        contador++;
     }
 
     public NodoSimple pop() {
         NodoSimple auxiliar = cabeza;
-        cabeza = cabeza.getSiguiente();
-
+        
+        if (cabeza==null) {
+            JOptionPane.showMessageDialog(null, "La Pila esta vacia");
+        }else{
+            cabeza = cabeza.getSiguiente();
         longitud--;
+        }
         return auxiliar;
     }
-    
-    public String getCodigoGraphviz(){
-        String codigo="";
-        int contador=0;
-        NodoSimple auxiliar=cabeza;
-        codigo+="digraph G {\n";
-        codigo+="0[label=\"TOPE\"]\n";
-        if (auxiliar==null) {
-            codigo+="";
-        }else{
-            while(auxiliar.getSiguiente()!=null){
-            if (contador==0) {
-                codigo+="0->"+auxiliar.getPosicion()+";\n";
+
+    public String getCodigoGraphviz() {
+        String codigo = "";
+        int contador = 0;
+        NodoSimple auxiliar = cabeza;
+
+        codigo += "digraph G {\n";
+        codigo += "0[label=\"TOPE\"]\n";
+        if (auxiliar == null) {
+            codigo += "";
+        } else {
+            while (auxiliar.getSiguiente() != null) {
+
+                if (contador == 0) {
+                    codigo += "0->" + auxiliar.getPosicion() + ";\n";
+                }
+                codigo += "" + auxiliar.getPosicion() + "[label=\"" + auxiliar.getBloque().getValor()
+                        + "," + auxiliar.getBloque().getColor() + "\"]\n";
+                codigo += "" + auxiliar.getPosicion() + "->" + auxiliar.getSiguiente().getPosicion() + ";\n";
+                auxiliar = auxiliar.getSiguiente();
+                contador++;
             }
-            codigo+=""+auxiliar.getPosicion()+"[label=\""+auxiliar.getBloque().getValor()+
-                    ","+auxiliar.getBloque().getColor()+"\"]\n";
-            codigo+=""+auxiliar.getPosicion()+"->"+auxiliar.getSiguiente().getPosicion()+";\n";
-            auxiliar=auxiliar.getSiguiente();
-            contador++;
+            if (contador==0&&auxiliar.getSiguiente()==null) {
+                    codigo+="0->"+auxiliar.getPosicion()+";\n";
+                }
+            codigo += "" + auxiliar.getPosicion() + "[label=\"" + auxiliar.getBloque().getValor()
+                    + "," + auxiliar.getBloque().getColor() + "\"]\n";
         }
-        codigo+=""+auxiliar.getPosicion()+"[label=\""+auxiliar.getBloque().getValor()+
-                ","+auxiliar.getBloque().getColor()+"\"]\n";
-        }
-        
-        codigo+="}";
+
+        codigo += "}";
         return codigo;
+    }
+
+    public void resetear() {
+        cabeza = null;
+        longitud = 0;
     }
 }

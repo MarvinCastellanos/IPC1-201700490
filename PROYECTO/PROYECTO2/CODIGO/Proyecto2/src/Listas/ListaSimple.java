@@ -17,6 +17,7 @@ public class ListaSimple {
 
     private NodoSimple cabeza;
     private int longitud = 0;
+    int contador;
 
     public boolean estaVacia() {
         return cabeza == null;
@@ -30,16 +31,17 @@ public class ListaSimple {
         NodoSimple nuevo = new NodoSimple(bloque);
         if (cabeza == null) {
             cabeza = nuevo;
-            cabeza.setPosicion(longitud+1);
+            cabeza.setPosicion(contador+1);
         } else {
             NodoSimple auxiliar = cabeza;
             while (auxiliar.getSiguiente() != null) {
                 auxiliar = auxiliar.getSiguiente();
             }
             auxiliar.setSiguiente(nuevo);
-            nuevo.setPosicion(longitud+1);
+            nuevo.setPosicion(contador+1);
         }
         longitud++;
+        contador++;
     }
 
     public void eliminar(String valor) {
@@ -59,18 +61,27 @@ public class ListaSimple {
                 if (auxiliar.getSiguiente() == null) {
                     JOptionPane.showMessageDialog(null, "No fue posible eliminarlo");
                     //si el valor esta en el cuerpo de la lista
-                } else if (auxiliar.getSiguiente().getBloque().getValor().equals(valor)) {
+                }else if(auxiliar.getSiguiente().getBloque().getValor().equals(valor)&&auxiliar.getSiguiente().getSiguiente()==null){
+                    auxiliar.setSiguiente(null);
+                    break;
+                } 
+                else if (auxiliar.getSiguiente().getBloque().getValor().equals(valor)) {
                     auxiliar.setSiguiente(auxiliar.getSiguiente().getSiguiente());
                     longitud--;
                     break;
                 }
                 auxiliar = auxiliar.getSiguiente();
             }
+            if (auxiliar.getBloque().getValor().equals(valor)&&auxiliar.getSiguiente()==null) {
+                    cabeza = null;
+                    longitud--;
+                }
         }
     }
 
     public void resetear() {
         cabeza = null;
+        longitud=0;
     }
 
     public String getCodigoGraphviz() {
@@ -94,5 +105,23 @@ public class ListaSimple {
 
         codigo += "}";
         return codigo;
+    }
+    
+    public Bloque obtener(int n) {
+        if (cabeza == null) {
+            return null;
+        } else {
+            NodoSimple auxiliar = cabeza;
+            int contador = 0;
+            while (contador < n && auxiliar.getSiguiente() != null) {
+                auxiliar = auxiliar.getSiguiente();
+                contador++;
+            }
+            if (contador != n) {
+                return null;
+            } else {
+                return auxiliar.getBloque();
+            }
+        }
     }
 }

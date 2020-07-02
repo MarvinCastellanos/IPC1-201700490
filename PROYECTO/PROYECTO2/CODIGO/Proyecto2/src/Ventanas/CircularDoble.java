@@ -5,6 +5,9 @@
  */
 package Ventanas;
 
+import static java.lang.Thread.sleep;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Marvin
@@ -16,9 +19,24 @@ public class CircularDoble extends javax.swing.JFrame {
      */
     public CircularDoble() {
         initComponents();
-        jTextArea1.setText(Main.Main.circular.getCodigoGraphviz());
+        actualizaTablero();
     }
 
+    public void actualizaTablero() {
+        new Thread() {
+            public void run() {
+                while (true) {
+                    jTextArea1.setText(Main.Main.circular.getCodigoGraphviz());
+                    try {
+                        sleep(2000);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }.start();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,6 +67,11 @@ public class CircularDoble extends javax.swing.JFrame {
         });
 
         jButton2.setText("Eliminar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,6 +106,14 @@ public class CircularDoble extends javax.swing.JFrame {
         mostrar.setVisible(true);
         jTextArea1.setText(Main.Main.circular.getCodigoGraphviz());
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String valor;
+        valor=JOptionPane.showInputDialog("Ingrese el valor a eliminar");
+        System.out.println(valor);
+        Main.Main.circular.eliminar(valor);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

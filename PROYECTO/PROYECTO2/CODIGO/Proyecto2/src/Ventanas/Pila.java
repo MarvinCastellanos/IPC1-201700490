@@ -5,6 +5,8 @@
  */
 package Ventanas;
 
+import static java.lang.Thread.sleep;
+
 /**
  *
  * @author Marvin
@@ -16,7 +18,22 @@ public class Pila extends javax.swing.JFrame {
      */
     public Pila() {
         initComponents();
-        jTextArea1.setText(Main.Main.pila.getCodigoGraphviz());
+        actualizaTablero();
+    }
+    
+    public void actualizaTablero() {
+        new Thread() {
+            public void run() {
+                while (true) {
+                    jTextArea1.setText(Main.Main.pila.getCodigoGraphviz());
+                    try {
+                        sleep(2000);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }.start();
     }
 
     /**
@@ -49,6 +66,11 @@ public class Pila extends javax.swing.JFrame {
         });
 
         jButton2.setText("Pop");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,6 +105,11 @@ public class Pila extends javax.swing.JFrame {
         mostrar.setVisible(true);
         jTextArea1.setText(Main.Main.pila.getCodigoGraphviz());
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Main.Main.pila.pop();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
