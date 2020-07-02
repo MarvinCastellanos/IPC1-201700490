@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import javax.swing.JFileChooser;
 import Objeto.Bloque;
+import static java.lang.Thread.sleep;
 
 /**
  *
@@ -27,6 +28,7 @@ public class Principal extends javax.swing.JFrame implements KeyListener {
      */
     public Principal() {
         initComponents();
+        colisiona();
 
         getContentPane().setBackground(Color.white);
         jPanel1.setBackground(Color.DARK_GRAY);
@@ -36,7 +38,7 @@ public class Principal extends javax.swing.JFrame implements KeyListener {
         setFocusable(true);
         add(jButton8);
         jPanel1.add(jButton8);
-        System.out.println("boton");
+        jButton8.setBackground(Color.black);
     }
 
     /**
@@ -191,12 +193,58 @@ public class Principal extends javax.swing.JFrame implements KeyListener {
         jPanel1.add(jButton8);
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    public void borraTablero(){
-        for (int contador = 0; contador < Main.Main.listaSimple.longitud(); contador++) {
-            Main.Main.listaSimple.obtener(contador).getBloque().setBounds(2000, 2000, 100, 100);
+    public void colisiona() {
+        new Thread() {
+            public void run() {
+                while (true) {
+                    for (int contador = 0; contador < Main.Main.listaSimpleTablero.longitud(); contador++) {
+                        int posXBloque=Main.Main.listaSimpleTablero.obtener(contador).getBloque().getLocation().x;
+                        int posYBloque=Main.Main.listaSimpleTablero.obtener(contador).getBloque().getLocation().y;
+                        int posXAtrapador=jButton8.getLocation().x;
+                        int posYAtrapador=jButton8.getLocation().y;
+                        
+                        if (posXBloque==posXAtrapador&&posYAtrapador==posYBloque) {
+                            Bloque nuevo=Main.Main.listaSimpleTablero.obtener(contador);
+                            String color=nuevo.getColor();
+                            switch(color){
+                                case "AZUL":Main.Main.listaDoble.insertar(nuevo);
+                                    break;
+                                case "ROJO":Main.Main.circular.insertar(nuevo);
+                                    break;
+                                case "AMARILLO":Main.Main.pila.push(nuevo);
+                                    break;
+                                case "VERDE":Main.Main.cola.encolar(nuevo);
+                                    break;
+                            }
+                            nuevo.getBloque().setBounds(2000, 2000, 100, 100);
+                        }
+                        
+                    }
+                    try {
+                        sleep(10);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }.start();
+    }
+
+    public void borraTablero() {
+        for (int contador = 0; contador < Main.Main.listaSimpleTablero.longitud(); contador++) {
+            Main.Main.listaSimpleTablero.obtener(contador).getBloque().setBounds(2000, 2000, 100, 100);
         }
     }
-    
+
+    private static boolean isNumeric(String cadena) {
+        try {
+            Integer.parseInt(cadena);
+            return true;
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+    }
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         JFileChooser busca = new JFileChooser();
@@ -215,25 +263,29 @@ public class Principal extends javax.swing.JFrame implements KeyListener {
                 } else {
                     String arregloAux[] = lineas.split(",", 0);
                     if (arregloAux.length != 4) {
-                        
+
                     } else {
                         //int fila, int columna, String valor, String color
-                        Bloque nuevo = new Bloque(Integer.parseInt(arregloAux[0]),
-                                Integer.parseInt(arregloAux[1]), arregloAux[2], arregloAux[3]);
-                        jPanel1.add(nuevo.getBloque());
-                        nuevo.getBloque().setBounds(nuevo.getBloque().getLocation().x+1, 
-                                nuevo.getBloque().getLocation().y+1, 100, 100);
-                        nuevo.getBloque().setBounds(nuevo.getBloque().getLocation().x-1, 
-                                nuevo.getBloque().getLocation().y-1, 100, 100);
-                        Main.Main.listaSimple.insertar(nuevo);
-                        System.out.println("se inserto");
+                        if (isNumeric(arregloAux[0]) && isNumeric(arregloAux[1])) {
+                            Bloque nuevo = new Bloque(Integer.parseInt(arregloAux[0]),
+                                    Integer.parseInt(arregloAux[1]), arregloAux[2], arregloAux[3]);
+                            jPanel1.add(nuevo.getBloque());
+                            nuevo.getBloque().setBounds(nuevo.getBloque().getLocation().x + 1,
+                                    nuevo.getBloque().getLocation().y + 1, 100, 100);
+                            nuevo.getBloque().setBounds(nuevo.getBloque().getLocation().x - 1,
+                                    nuevo.getBloque().getLocation().y - 1, 100, 100);
+                            Main.Main.listaSimple.insertar(nuevo);
+                            Main.Main.listaSimpleTablero.insertar(nuevo);
+                            System.out.println("se inserto");
+                        }
+
                     }
                 }
 
             }
         } catch (Exception ex) {
             //System.out.println("No se pudo cargar el archivo");
-        }        
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -269,12 +321,14 @@ public class Principal extends javax.swing.JFrame implements KeyListener {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         borraTablero();
+        jButton8.setLocation(0, 0);
         Main.Main.circular.resetear();
         Main.Main.cola.resetear();
         Main.Main.listaDoble.resetear();
         Main.Main.listaSimple.resetear();
+        Main.Main.listaSimpleTablero.resetear();
         Main.Main.pila.resetear();
-        
+
 
     }//GEN-LAST:event_jButton2ActionPerformed
 

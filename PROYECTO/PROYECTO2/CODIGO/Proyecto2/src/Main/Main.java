@@ -16,6 +16,7 @@ public class Main {
         public static ListaDoble listaDoble = new ListaDoble();
         public static ListaPila pila = new ListaPila();
         public static ListaSimple listaSimple = new ListaSimple();
+        public static ListaSimple listaSimpleTablero = new ListaSimple();
 
     /**
      * @param args the command line arguments
